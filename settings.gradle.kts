@@ -23,8 +23,7 @@ plugins {
 }
 
 include(
-	"app",
-	"core",
+	"vite",
 )
 
 buildCache {

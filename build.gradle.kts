@@ -10,8 +10,4 @@
 plugins {
 	id("conventions.base")
 	id("conventions.root")
-
-	// Some plugins *must* be configured on the root project.
-	// In these cases, we explicitly tell Gradle not to apply them.
-	alias(libs.plugins.kotlin) apply false
 }
