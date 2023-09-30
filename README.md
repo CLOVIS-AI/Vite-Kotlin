@@ -1,10 +1,6 @@
-# Playground: Gradle
+# Vite for Kotlin
 
-<!-- When using the Playground to bootstrap a project, replace this by your project description. -->
-This a template to easily bootstrap your projects.
-
-> This project is part of the OpenSavvy Playground.
-> To learn more, visit [this page](docs/playground/README.md).
+Gradle plugin to create [Kotlin/JS](https://kotlinlang.org/docs/js-overview.html) projects using [Vite](https://vitejs.dev/).
 
 ## License
 
