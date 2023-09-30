@@ -6,6 +6,8 @@ import org.gradle.api.Project
 class KotlinVitePlugin : Plugin<Project> {
 
 	override fun apply(target: Project) {
+		check(target.pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")) { """The kotlin("multiplatform") plugin must be applied before the Vite for Kotlin plugin""" }
+
 		target.tasks.register("dumpViteConfiguration") {
 			group = GROUP
 			description = "Prints the configuration of the Vite plugin"
