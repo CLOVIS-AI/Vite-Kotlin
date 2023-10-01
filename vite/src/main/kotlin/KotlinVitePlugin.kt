@@ -5,6 +5,7 @@ import opensavvy.gradle.vite.kotlin.config.defaultConfigurationFor
 import opensavvy.gradle.vite.kotlin.tasks.configureDependencies
 import opensavvy.gradle.vite.kotlin.tasks.createConfigWriterTask
 import opensavvy.gradle.vite.kotlin.tasks.createDumpTask
+import opensavvy.gradle.vite.kotlin.tasks.createExecTasks
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -19,9 +20,13 @@ class KotlinVitePlugin : Plugin<Project> {
 		configureDependencies(target, config)
 		createDumpTask(target, config)
 		createConfigWriterTask(target)
+		createExecTasks(target)
 	}
 
 	companion object {
 		const val GROUP = "Vite for Kotlin"
 	}
 }
+
+val Project.kotlinViteExtension: ViteConfig
+	get() = extensions.getByType(ViteConfig::class.java)
