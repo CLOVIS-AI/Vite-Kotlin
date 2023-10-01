@@ -3,6 +3,7 @@ package opensavvy.gradle.vite.kotlin
 import opensavvy.gradle.vite.kotlin.config.ViteConfig
 import opensavvy.gradle.vite.kotlin.config.defaultConfigurationFor
 import opensavvy.gradle.vite.kotlin.tasks.configureDependencies
+import opensavvy.gradle.vite.kotlin.tasks.createConfigWriterTask
 import opensavvy.gradle.vite.kotlin.tasks.createDumpTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,6 +18,7 @@ class KotlinVitePlugin : Plugin<Project> {
 
 		configureDependencies(target, config)
 		createDumpTask(target, config)
+		createConfigWriterTask(target)
 	}
 
 	companion object {
