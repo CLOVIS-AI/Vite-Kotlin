@@ -32,6 +32,40 @@ check:
   interruptible: true
 
 # endregion
+# region Examples
+
+.example:
+  stage: test
+  extends: [ .os.gradle ]
+  needs: [ ]
+
+  script:
+    - >
+      ./gradlew
+      -p examples/$example
+      --include-build ../..
+      tasks dumpViteConfiguration build
+
+  interruptible: true
+
+example:simple:
+  extends: [ .example ]
+  variables:
+    example: simple
+
+  after_script:
+    - mv examples/simple/build/js/packages/example-simple/kotlin/dist kotlin-example
+    - echo "# TYPE production_size gauge" >>metrics.txt
+    - >
+      for file in $(find kotlin-example);
+      do
+        result=$(du -sbh $file | tr -s ' ');
+        size=$(<<<"$result" cut -f 1);
+        name=$(<<<"$result" sed 's/\.\///;s/-[[:alnum:]]\+\./\./' | cut -f 2);
+        echo "production_size{path=$name} $size" >>metrics.txt;
+      done
+
+# endregion
 # region Publishing
 
 publish-maven:gitlab:

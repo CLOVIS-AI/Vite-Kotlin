@@ -1,0 +1,8 @@
+# Gradle generated files
+build
+gradle
+gradlew
+gradlew.bat
+
+# Yarn lock file
+kotlin-js-store
