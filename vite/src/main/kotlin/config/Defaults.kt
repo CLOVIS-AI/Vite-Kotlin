@@ -8,4 +8,7 @@ internal fun ViteConfig.defaultConfigurationFor(project: Project) {
 	buildRoot.convention(project.rootProject.layout.buildDirectory.dir("js/packages/${project.name}"))
 	root.convention(buildRoot.dir("kotlin"))
 	base.convention(buildRoot)
+
+	plugin("@originjs/vite-plugin-commonjs", "viteCommonJs", "1.0.3", isNamedExport = true)
+	plugin("@rollup/plugin-commonjs", "commonjs", "24.0.1")
 }
