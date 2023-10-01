@@ -3,6 +3,7 @@ package opensavvy.gradle.vite.kotlin.config
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Nested
 import org.intellij.lang.annotations.Language
 
 interface ViteConfig {
@@ -83,4 +84,10 @@ interface ViteConfig {
 			)
 		)
 	}
+
+	/**
+	 * Configuration for Rollup to build the production bundle.
+	 */
+	@get:Nested
+	val build: ViteBuildConfig
 }

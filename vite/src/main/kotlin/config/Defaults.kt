@@ -11,4 +11,7 @@ internal fun ViteConfig.defaultConfigurationFor(project: Project) {
 
 	plugin("@originjs/vite-plugin-commonjs", "viteCommonJs", "1.0.3", isNamedExport = true)
 	plugin("@rollup/plugin-commonjs", "commonjs", "24.0.1")
+
+	// Build
+	build.target.convention("modules")
 }

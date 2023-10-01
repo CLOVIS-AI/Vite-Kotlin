@@ -21,7 +21,10 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 					Build root    ${config.buildRoot.get()}
 					Project root  ${config.root.get()}
 					Asset base    ${config.base.get()}
-					Plugins       $plugins       
+					Plugins       $plugins
+					
+					» Build
+					Target        ${config.build.target.get()}
 				""".trimIndent())
 		}
 	}
