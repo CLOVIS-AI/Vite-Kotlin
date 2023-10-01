@@ -4,32 +4,33 @@ import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.kotlin.config.ExternalVitePlugin
 import opensavvy.gradle.vite.kotlin.config.ViteBuildConfig
 import opensavvy.gradle.vite.kotlin.config.ViteConfig
+import opensavvy.gradle.vite.kotlin.kotlinViteExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.configurationcache.extensions.capitalized
+import java.io.File
 
 @Suppress("LeakingThis")
 abstract class ViteConfigWriter : DefaultTask() {
 
 	/** See [ViteConfig.buildRoot]. */
-	@get:InputDirectory
-	abstract val buildRoot: DirectoryProperty
+	@get:Input
+	abstract val buildRoot: Property<String>
 
 	/** See [ViteConfig.root]. */
-	@get:InputDirectory
-	abstract val root: DirectoryProperty
+	@get:Input
+	abstract val root: Property<String>
 
 	/** See [ViteConfig.base]. */
-	@get:InputDirectory
-	abstract val base: DirectoryProperty
+	@get:Input
+	abstract val base: Property<String>
 
 	/** See [ViteConfig.plugins]. */
 	@get:Input
@@ -52,12 +53,12 @@ abstract class ViteConfigWriter : DefaultTask() {
 		group = KotlinVitePlugin.GROUP
 
 		val config = project.extensions.getByType(ViteConfig::class.java)
-		buildRoot.convention(config.buildRoot)
-		root.convention(config.root)
-		base.convention(config.base)
+		buildRoot.convention(config.buildRoot.asFile.map { it.absolutePath })
+		root.convention(config.root.asFile.map { it.absolutePath })
+		base.convention(config.base.asFile.map { it.absolutePath })
 		plugins.convention(config.plugins)
 		buildTarget.convention(config.build.target)
-		configurationFile.convention(buildRoot.file("vite.config.js"))
+		configurationFile.convention(buildRoot.map { "$it/vite.config.js" }.map { RegularFile { File(it) } })
 	}
 
 	private fun pluginImport(plugin: ExternalVitePlugin) = if (plugin.isNamedExport)
@@ -76,8 +77,8 @@ abstract class ViteConfigWriter : DefaultTask() {
 
             /** @type {import('vite').UserConfig} */
             export default {
-                root: '${root.get().asFile}',
-                base: '${base.get().asFile}',
+                root: '${root.get()}',
+                base: '${base.get()}',
                 plugins: [
                     ${
 				plugins.get()
