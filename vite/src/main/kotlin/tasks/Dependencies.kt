@@ -13,6 +13,10 @@ internal fun configureDependencies(project: Project, config: ViteConfig) {
 		.configureEach {
 			dependencies {
 				implementation(devNpm("vite", config.version.get()))
+
+				for (plugin in config.plugins.get()) {
+					implementation(devNpm(plugin.packageName, plugin.version))
+				}
 			}
 		}
 }
