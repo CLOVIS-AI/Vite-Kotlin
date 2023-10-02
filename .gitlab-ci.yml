@@ -54,7 +54,7 @@ example:simple:
     example: simple
 
   after_script:
-    - mv examples/simple/build/js/packages/example-simple/kotlin/dist kotlin-example
+    - mv examples/simple/build/vite/prod/kotlin/dist kotlin-example
     - echo "# TYPE production_size gauge" >>metrics.txt
     - >
       for file in $(find kotlin-example);
@@ -64,6 +64,13 @@ example:simple:
         name=$(<<<"$result" sed 's/\.\///;s/-[[:alnum:]]\+\./\./' | cut -f 2);
         echo "production_size{path=$name} $size" >>metrics.txt;
       done
+
+  artifacts:
+    paths:
+      - kotlin-example
+    expose_as: Simple example
+    reports:
+      metrics: metrics.txt
 
 # endregion
 # region Publishing
