@@ -2,20 +2,18 @@ package opensavvy.gradle.vite.kotlin.tasks
 
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.kotlin.kotlinViteExtension
+import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion.kotlinNodeJsExtension
 import org.jetbrains.kotlin.gradle.targets.js.npm.NpmProject
-import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import java.io.File
 
 @Suppress("LeakingThis")
@@ -51,14 +49,12 @@ abstract class ViteExecTask : DefaultTask() {
 	@get:InputFile
 	abstract val vitePath: RegularFileProperty
 
-	@get:InputDirectory
-	abstract val projectDir: DirectoryProperty
+	@get:Input
+	abstract val workingDirectory: Property<String>
 
 	init {
 		group = KotlinVitePlugin.GROUP
 		description = "Executes a given Vite command"
-
-		dependsOn(KotlinNpmInstallTask.NAME, ViteConfigWriter.DEFAULT_TASK_NAME)
 
 		arguments.convention(emptyList())
 
@@ -78,7 +74,6 @@ abstract class ViteExecTask : DefaultTask() {
 		)
 
 		val config = project.kotlinViteExtension
-		projectDir.convention(config.buildRoot)
 		inputs.property("vite_version", config.version)
 	}
 
@@ -92,7 +87,7 @@ abstract class ViteExecTask : DefaultTask() {
 				*arguments.get().toTypedArray(),
 			)
 
-			workingDir(projectDir.get())
+			workingDir(workingDirectory.get())
 		}
 	}
 
@@ -101,11 +96,12 @@ abstract class ViteExecTask : DefaultTask() {
 internal fun createExecTasks(project: Project) {
 	project.tasks.register("viteBuild", ViteExecTask::class.java) {
 		description = "Builds the production variant of the project"
+		dependsOn("viteConfigureProd")
 
 		command.set("build")
-		dependsOn("jsProductionExecutableCompileSync")
 
-		outputs.dir(projectDir.dir("dist"))
+		workingDirectory.set(project.viteBuildProdDir.map { it.asFile.absolutePath })
+		outputs.dir(workingDirectory.map { "$it/dist" })
 	}
 
 	project.tasks.named("assemble") {
