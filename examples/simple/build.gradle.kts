@@ -15,3 +15,9 @@ kotlin {
 		binaries.executable()
 	}
 }
+
+// Currently, the Webpack task from the Kotlin plugin conflicts with our own tasks.
+// Hopefully, in the future, it should be possible to have them both for comparisons.
+tasks.named("jsBrowserProductionWebpack") {
+	onlyIf { false }
+}

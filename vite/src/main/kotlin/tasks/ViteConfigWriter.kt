@@ -6,30 +6,22 @@ import opensavvy.gradle.vite.kotlin.config.ViteBuildConfig
 import opensavvy.gradle.vite.kotlin.config.ViteConfig
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.configurationcache.extensions.capitalized
+import java.io.File
 
 @Suppress("LeakingThis")
 abstract class ViteConfigWriter : DefaultTask() {
 
-	/** See [ViteConfig.buildRoot]. */
-	@get:InputDirectory
-	abstract val buildRoot: DirectoryProperty
-
-	/** See [ViteConfig.root]. */
-	@get:InputDirectory
-	abstract val root: DirectoryProperty
-
-	/** See [ViteConfig.base]. */
-	@get:InputDirectory
-	abstract val base: DirectoryProperty
+	@get:Nested
+	abstract val workingDirectory: ViteWorkingDirectory
 
 	/** See [ViteConfig.plugins]. */
 	@get:Input
@@ -52,12 +44,9 @@ abstract class ViteConfigWriter : DefaultTask() {
 		group = KotlinVitePlugin.GROUP
 
 		val config = project.extensions.getByType(ViteConfig::class.java)
-		buildRoot.convention(config.buildRoot)
-		root.convention(config.root)
-		base.convention(config.base)
 		plugins.convention(config.plugins)
 		buildTarget.convention(config.build.target)
-		configurationFile.convention(buildRoot.file("vite.config.js"))
+		configurationFile.convention(workingDirectory.buildRoot.map { "$it/vite.config.js" }.map { RegularFile { File(it) } })
 	}
 
 	private fun pluginImport(plugin: ExternalVitePlugin) = if (plugin.isNamedExport)
@@ -76,8 +65,8 @@ abstract class ViteConfigWriter : DefaultTask() {
 
             /** @type {import('vite').UserConfig} */
             export default {
-                root: '${root.get().asFile}',
-                base: '${base.get().asFile}',
+                root: '${workingDirectory.root.get()}',
+                base: '${workingDirectory.base.get()}',
                 plugins: [
                     ${
 				plugins.get()
@@ -94,16 +83,27 @@ abstract class ViteConfigWriter : DefaultTask() {
 	}
 
 	companion object {
-		const val DEFAULT_TASK_NAME = "configureVite"
+		const val NAME_DEV = "viteConfigureDev"
+		const val NAME_PROD = "viteConfigureProd"
 	}
 }
 
-internal fun createConfigWriterTask(project: Project) {
-	project.tasks.register(ViteConfigWriter.DEFAULT_TASK_NAME, ViteConfigWriter::class.java) {
-		dependsOn("jsProductionExecutableCompileSync")
+internal fun createConfigWriterTasks(project: Project) {
+	project.tasks.register(ViteConfigWriter.NAME_DEV, ViteConfigWriter::class.java) {
+		dependsOn("viteCompileDev")
+
+		workingDirectory.defaultDevFor(project)
+		workingDirectory.defaultLayoutForKotlin()
+	}
+
+	project.tasks.register(ViteConfigWriter.NAME_PROD, ViteConfigWriter::class.java) {
+		dependsOn("viteCompileProd")
+
+		workingDirectory.defaultProdFor(project)
+		workingDirectory.defaultLayoutForKotlin()
 	}
 
 	project.tasks.named("clean") {
-		dependsOn("clean${ViteConfigWriter.DEFAULT_TASK_NAME.capitalized()}")
+		dependsOn("clean${ViteConfigWriter.NAME_DEV.capitalized()}", "clean${ViteConfigWriter.NAME_PROD.capitalized()}")
 	}
 }
