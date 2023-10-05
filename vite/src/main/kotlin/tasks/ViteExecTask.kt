@@ -2,6 +2,7 @@ package opensavvy.gradle.vite.kotlin.tasks
 
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.kotlin.kotlinViteExtension
+import opensavvy.gradle.vite.kotlin.viteBuildDevDir
 import opensavvy.gradle.vite.kotlin.viteBuildDistDir
 import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.DefaultTask
@@ -106,11 +107,20 @@ internal fun createExecTasks(project: Project) {
 		outputs.dir(project.viteBuildDistDir)
 	}
 
+	project.tasks.register("viteRun", ViteExecTask::class.java) {
+		description = "Hosts the development variant of the project"
+		dependsOn("viteConfigureDev", "kotlinNpmInstall")
+
+		command.set("run")
+
+		workingDirectory.set(project.viteBuildDevDir.map { it.asFile.absolutePath })
+	}
+
 	project.tasks.named("assemble") {
 		dependsOn("viteBuild")
 	}
 
 	project.tasks.named("clean") {
-		dependsOn("cleanViteBuild")
+		dependsOn("cleanViteBuild", "cleanViteRun")
 	}
 }
