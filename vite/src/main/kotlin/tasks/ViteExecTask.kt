@@ -24,6 +24,7 @@ abstract class ViteExecTask : DefaultTask() {
 	 * The Vite command to execute, for example `run` or `build`.
 	 */
 	@get:Input
+	@get:Optional
 	abstract val command: Property<String>
 
 	/**
@@ -86,7 +87,9 @@ abstract class ViteExecTask : DefaultTask() {
 			commandLine(
 				nodePath.get().asFile.absolutePath,
 				vitePath.get().asFile.absolutePath,
-				command.get(),
+				command.getOrElse(""),
+				"-c",
+				"../vite.config.js",
 				*arguments.get().toTypedArray(),
 			)
 
@@ -103,7 +106,7 @@ internal fun createExecTasks(project: Project) {
 
 		command.set("build")
 
-		workingDirectory.set(project.viteBuildProdDir.map { it.asFile.absolutePath })
+		workingDirectory.set(project.viteBuildProdDir.map { "$it/kotlin" })
 		outputs.dir(project.viteBuildDistDir)
 	}
 
@@ -111,9 +114,7 @@ internal fun createExecTasks(project: Project) {
 		description = "Hosts the development variant of the project"
 		dependsOn("viteConfigureDev", "kotlinNpmInstall")
 
-		command.set("run")
-
-		workingDirectory.set(project.viteBuildDevDir.map { it.asFile.absolutePath })
+		workingDirectory.set(project.viteBuildDevDir.map { "$it/kotlin" })
 	}
 
 	project.tasks.named("assemble") {
