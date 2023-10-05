@@ -1,8 +1,6 @@
 package opensavvy.gradle.vite.kotlin.config
 
-import org.gradle.api.Project
-
-internal fun ViteConfig.defaultConfigurationFor(project: Project) {
+internal fun ViteConfig.defaultConfiguration() {
 	// Root
 	version.convention("4.4.9")
 

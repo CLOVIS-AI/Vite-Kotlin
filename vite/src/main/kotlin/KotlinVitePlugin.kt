@@ -1,7 +1,7 @@
 package opensavvy.gradle.vite.kotlin
 
 import opensavvy.gradle.vite.kotlin.config.ViteConfig
-import opensavvy.gradle.vite.kotlin.config.defaultConfigurationFor
+import opensavvy.gradle.vite.kotlin.config.defaultConfiguration
 import opensavvy.gradle.vite.kotlin.tasks.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,12 +14,12 @@ class KotlinVitePlugin : Plugin<Project> {
 		check(target.pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")) { """The kotlin("multiplatform") plugin must be applied before the Vite for Kotlin plugin""" }
 
 		val config = target.extensions.create("vite", ViteConfig::class.java)
-		config.defaultConfigurationFor(target)
+		config.defaultConfiguration()
 
 		configureDependencies(target, config)
 		createDumpTask(target, config)
-		createCopyTask(target, "viteCompileDev", "jsDevelopmentExecutableCompileSync", target.viteBuildDevDir, config)
-		createCopyTask(target, "viteCompileProd", "jsProductionExecutableCompileSync", target.viteBuildProdDir, config)
+		createCopyTask(target, "viteCompileDev", "jsDevelopmentExecutableCompileSync", target.viteBuildDevDir)
+		createCopyTask(target, "viteCompileProd", "jsProductionExecutableCompileSync", target.viteBuildProdDir)
 		createConfigWriterTasks(target)
 		createExecTasks(target)
 	}

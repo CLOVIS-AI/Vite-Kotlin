@@ -1,7 +1,6 @@
 package opensavvy.gradle.vite.kotlin.tasks
 
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
-import opensavvy.gradle.vite.kotlin.config.ViteConfig
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider
@@ -14,7 +13,7 @@ import kotlin.io.path.exists
 import kotlin.io.path.isSymbolicLink
 import kotlin.io.path.readSymbolicLink
 
-internal fun createCopyTask(project: Project, name: String, sourceTask: String, destination: Provider<Directory>, config: ViteConfig) {
+internal fun createCopyTask(project: Project, name: String, sourceTask: String, destination: Provider<Directory>) {
 	project.tasks.register(name, Sync::class.java) {
 		group = KotlinVitePlugin.GROUP
 		description = "Prepares the Vite working directory"
