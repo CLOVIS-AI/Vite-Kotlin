@@ -19,14 +19,10 @@ internal fun createCopyTask(project: Project, name: String, sourceTask: String, 
 		group = KotlinVitePlugin.GROUP
 		description = "Prepares the Vite working directory"
 
-		dependsOn(sourceTask, "jsPackageJson", "kotlinNodeJsSetup")
+		dependsOn("jsPackageJson", "kotlinNodeJsSetup")
 
-		val projectName =
-			if (project.rootProject === project) project.name
-			else project.rootProject.name + "-" + project.name
-
-		from(project.rootProject.layout.buildDirectory.dir("js/packages/$projectName"))
-		into(destination)
+		from(project.tasks.named(sourceTask))
+		into(destination.map { it.dir("kotlin") })
 		exclude("node_modules")
 
 		doLast {
