@@ -9,14 +9,13 @@ import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion.kotlinNodeJsExtension
 import org.jetbrains.kotlin.gradle.targets.js.npm.NpmProject
 import java.io.File
 
 @Suppress("LeakingThis")
+@CacheableTask
 abstract class ViteExecTask : DefaultTask() {
 
 	/**
@@ -38,6 +37,7 @@ abstract class ViteExecTask : DefaultTask() {
 	 * By default, the Node installation used by the Kotlin plugin is used.
 	 */
 	@get:InputFile
+	@get:PathSensitive(PathSensitivity.RELATIVE)
 	abstract val nodePath: RegularFileProperty
 
 	/**
@@ -47,6 +47,7 @@ abstract class ViteExecTask : DefaultTask() {
 	 * By default, Vite is installed as a development dependency of the project in which this plugin is applied.
 	 */
 	@get:InputFile
+	@get:PathSensitive(PathSensitivity.RELATIVE)
 	abstract val vitePath: RegularFileProperty
 
 	@get:Input
