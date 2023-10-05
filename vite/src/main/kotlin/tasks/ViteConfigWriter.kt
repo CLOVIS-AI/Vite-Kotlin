@@ -15,9 +15,11 @@ import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.configurationcache.extensions.capitalized
+import org.gradle.work.DisableCachingByDefault
 import java.io.File
 
 @Suppress("LeakingThis")
+@DisableCachingByDefault(because = "Not worth caching")
 abstract class ViteConfigWriter : DefaultTask() {
 
 	@get:Nested
@@ -57,7 +59,7 @@ abstract class ViteConfigWriter : DefaultTask() {
 	@TaskAction
 	fun create() {
 		val output = configurationFile.get().asFile
-		output.writeText( //language=JavaScript
+		output.writeText( // language=JavaScript
 			"""
             ${
 				plugins.get().joinToString(separator = "\n            ") { pluginImport(it) }
