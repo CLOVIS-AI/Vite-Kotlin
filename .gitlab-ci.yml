@@ -54,7 +54,7 @@ example:simple:
     example: simple
 
   after_script:
-    - mv examples/simple/build/vite/prod/kotlin/dist kotlin-example
+    - mv examples/simple/build/vite/dist kotlin-example
     - echo "# TYPE production_size gauge" >>metrics.txt
     - >
       for file in $(find kotlin-example);

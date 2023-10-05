@@ -4,6 +4,7 @@ import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.kotlin.config.ExternalVitePlugin
 import opensavvy.gradle.vite.kotlin.config.ViteBuildConfig
 import opensavvy.gradle.vite.kotlin.config.ViteConfig
+import opensavvy.gradle.vite.kotlin.viteBuildDistDir
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.RegularFile
@@ -74,7 +75,8 @@ abstract class ViteConfigWriter : DefaultTask() {
 			}
                 ],
                 build: {
-                    target: '${buildTarget.get()}'
+                    target: '${buildTarget.get()}',
+                    outDir: '${project.viteBuildDistDir.get()}'
                 }
             }
 
