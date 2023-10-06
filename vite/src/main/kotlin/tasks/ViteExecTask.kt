@@ -2,6 +2,7 @@ package opensavvy.gradle.vite.kotlin.tasks
 
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.kotlin.kotlinViteExtension
+import opensavvy.gradle.vite.kotlin.viteBuildDistDir
 import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -102,7 +103,7 @@ internal fun createExecTasks(project: Project) {
 		command.set("build")
 
 		workingDirectory.set(project.viteBuildProdDir.map { it.asFile.absolutePath })
-		outputs.dir(workingDirectory.map { "$it/dist" })
+		outputs.dir(project.viteBuildDistDir)
 	}
 
 	project.tasks.named("assemble") {

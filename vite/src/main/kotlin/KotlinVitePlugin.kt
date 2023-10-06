@@ -35,8 +35,14 @@ val Project.kotlinViteExtension: ViteConfig
 private val Project.viteBuildDir: Provider<Directory>
 	get() = project.layout.buildDirectory.dir("vite")
 
-val Project.viteBuildProdDir: Provider<Directory>
+internal val Project.viteBuildProdDir: Provider<Directory>
 	get() = viteBuildDir.map { it.dir("prod") }
 
-val Project.viteBuildDevDir: Provider<Directory>
+internal val Project.viteBuildDevDir: Provider<Directory>
 	get() = viteBuildDir.map { it.dir("dev") }
+
+/**
+ * Default dist directory (override by config)
+ */
+internal val Project.viteBuildDistDir: Provider<Directory>
+	get() = viteBuildDir.map { it.dir("dist") }
