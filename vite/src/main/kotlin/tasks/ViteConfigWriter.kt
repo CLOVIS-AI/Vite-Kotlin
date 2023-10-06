@@ -34,7 +34,7 @@ abstract class ViteConfigWriter : DefaultTask() {
 	/**
 	 * The path to the `vite.config.js` file which will be created by this task.
 	 *
-	 * By default, it is created in the [buildRoot] directory.
+	 * By default, it is created in the [workingDirectory] directory.
 	 */
 	@get:OutputFile
 	abstract val configurationFile: RegularFileProperty

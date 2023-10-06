@@ -1,11 +1,10 @@
 package opensavvy.gradle.vite.kotlin.tasks
 
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
-import opensavvy.gradle.vite.kotlin.config.ViteConfig
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.Copy
+import org.gradle.api.tasks.Sync
 import org.gradle.configurationcache.extensions.capitalized
 import java.nio.file.Files
 import java.nio.file.Path
@@ -14,19 +13,15 @@ import kotlin.io.path.exists
 import kotlin.io.path.isSymbolicLink
 import kotlin.io.path.readSymbolicLink
 
-internal fun createCopyTask(project: Project, name: String, sourceTask: String, destination: Provider<Directory>, config: ViteConfig) {
-	project.tasks.register(name, Copy::class.java) {
+internal fun createCopyTask(project: Project, name: String, sourceTask: String, destination: Provider<Directory>) {
+	project.tasks.register(name, Sync::class.java) {
 		group = KotlinVitePlugin.GROUP
 		description = "Prepares the Vite working directory"
 
-		dependsOn(sourceTask, "jsPackageJson", "kotlinNodeJsSetup")
+		dependsOn("jsPackageJson", "kotlinNodeJsSetup")
 
-		val projectName =
-			if (project.rootProject === project) project.name
-			else project.rootProject.name + "-" + project.name
-
-		from(project.rootProject.layout.buildDirectory.dir("js/packages/$projectName"))
-		into(destination)
+		from(project.tasks.named(sourceTask))
+		into(destination.map { it.dir("kotlin") })
 		exclude("node_modules")
 
 		doLast {
