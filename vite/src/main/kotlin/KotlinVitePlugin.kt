@@ -39,7 +39,7 @@ internal val Project.viteBuildProdDir: Provider<Directory>
 	get() = viteBuildDir.map { it.dir("prod") }
 
 internal val Project.viteBuildDevDir: Provider<Directory>
-	get() = viteBuildDir.map { it.dir("dev") }
+	get() = viteBuildDir.map { it.dir("dev/child") } // subfolder to match the nesting of the source maps :)
 
 /**
  * Default dist directory (override by config)
