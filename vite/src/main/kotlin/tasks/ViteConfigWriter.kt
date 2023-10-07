@@ -72,6 +72,7 @@ abstract class ViteConfigWriter : DefaultTask() {
 
             /** @type {import('vite').UserConfig} */
             export default {
+				base: '',
                 plugins: [
                     ${
 				plugins.get()
