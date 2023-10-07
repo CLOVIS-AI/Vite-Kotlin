@@ -20,7 +20,7 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 			println("""
 					» Top-level
 					Vite version  ${config.version.get()}
-					Plugins       $plugins
+					Plugins       ${config.plugins.get().dump()}
 					
 					» Build
 					Target        ${config.build.target.get()}
@@ -28,7 +28,15 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 					» Destinations
 					Dev           ${project.viteBuildDevDir.get()}
 					Production    ${project.viteBuildProdDir.get()}
+					
+					» Transitive resource dependencies
+					Projects      ${config.resources.projects.get().dump { it.path }}
 				""".trimIndent())
 		}
 	}
 }
+
+private fun <T> Collection<T>.dump(transform: (T) -> CharSequence = { it.toString() }) = this
+	.takeIf { it.isNotEmpty() }
+	?.joinToString(separator = "\n                   ", transform = transform)
+	?: "(none)"

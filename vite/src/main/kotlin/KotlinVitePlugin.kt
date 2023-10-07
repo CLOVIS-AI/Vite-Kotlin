@@ -16,10 +16,23 @@ class KotlinVitePlugin : Plugin<Project> {
 		val config = target.extensions.create("vite", ViteConfig::class.java)
 		config.defaultConfiguration()
 
+		// Lifecycle tasks for convenience
+		target.tasks.register("viteCompileDev") {
+			group = GROUP
+			description = "Compiles the project and collects dependencies; run with --continuous to enable auto-reload for 'viteRun'"
+			dependsOn("viteCompileKotlinDev")
+		}
+		target.tasks.register("viteCompileProd") {
+			group = GROUP
+			description = "Compiles the project and collects dependencies for the production variant"
+			dependsOn("viteCompileKotlinProd")
+		}
+
 		configureDependencies(target, config)
 		createDumpTask(target, config)
-		createCopyTask(target, "viteCompileDev", "jsDevelopmentExecutableCompileSync", target.viteBuildDevDir)
-		createCopyTask(target, "viteCompileProd", "jsProductionExecutableCompileSync", target.viteBuildProdDir)
+		createCopyTask(target, "viteCompileKotlinDev", "jsDevelopmentExecutableCompileSync", target.viteBuildDevDir)
+		createCopyTask(target, "viteCompileKotlinProd", "jsProductionExecutableCompileSync", target.viteBuildProdDir)
+		copyLocalResources(target, config)
 		createConfigWriterTasks(target)
 		createExecTasks(target)
 	}
