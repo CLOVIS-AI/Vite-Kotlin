@@ -1,3 +1,5 @@
+package opensavvy.gradle.vite.kotlin.example.simple
+
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlin.js.Date
