@@ -65,4 +65,13 @@ interface ViteConfig {
 	 */
 	@get:Nested
 	val build: ViteBuildConfig
+
+	/**
+	 * Declare where transitive resources should be imported from.
+	 */
+	@get:Nested
+	val resources: ViteResourceConfig
+
+	fun build(block: ViteBuildConfig.() -> Unit) = build.apply(block)
+	fun resources(block: ViteResourceConfig.() -> Unit) = resources.apply(block)
 }
