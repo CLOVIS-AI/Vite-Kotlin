@@ -5,9 +5,10 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 
 fun main() {
+	createOrModifyDiv(helloWorld())
 	window.setInterval({
 		createOrModifyDiv(helloWorld())
-	}, 5000)
+	}, 1000)
 }
 
 private fun createOrModifyDiv(content: String){
