@@ -1,10 +1,6 @@
 package opensavvy.gradle.vite.kotlin.tasks
 
-import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
-import opensavvy.gradle.vite.kotlin.kotlinViteExtension
-import opensavvy.gradle.vite.kotlin.viteBuildDevDir
-import opensavvy.gradle.vite.kotlin.viteBuildDistDir
-import opensavvy.gradle.vite.kotlin.viteBuildProdDir
+import opensavvy.gradle.vite.kotlin.*
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.RegularFile
@@ -112,7 +108,7 @@ internal fun createExecTasks(project: Project) {
 
 	project.tasks.register("viteRun", ViteExecTask::class.java) {
 		description = "Hosts the development variant of the project"
-		dependsOn("viteConfigureDev", "kotlinNpmInstall")
+		dependsOn("viteConfigureDev", ":kotlinNpmInstall")
 
 		workingDirectory.set(project.viteBuildDevDir.map { "$it/kotlin" })
 	}

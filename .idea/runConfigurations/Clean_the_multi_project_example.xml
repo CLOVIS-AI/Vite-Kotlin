@@ -1,17 +1,17 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Example Simple → Run" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="Clean the multi-project example" type="GradleRunConfiguration" factoryName="Gradle" folderName="Multi-project example">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="-p examples/simple --include-build ../.." />
+      <option name="scriptParameters" value="-p examples/multi-project --include-build ../.." />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
         <list>
-          <option value="dumpViteConfiguration" />
-          <option value="viteRun" />
+          <option value="tasks" />
+          <option value="clean" />
         </list>
       </option>
       <option name="vmOptions" />

@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Example Simple → Build" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="Build the multi-project example" type="GradleRunConfiguration" factoryName="Gradle" folderName="Multi-project example">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="-p examples/simple --include-build ../.." />
+      <option name="scriptParameters" value="-p examples/multi-project --include-build ../.." />
       <option name="taskDescriptions">
         <list />
       </option>

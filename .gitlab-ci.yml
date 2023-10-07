@@ -80,6 +80,25 @@ example:simple:
     deployment_tier: development
   interruptible: true
 
+example:multi-project:
+  extends: [ .example ]
+  variables:
+    example: multi-project
+
+  after_script:
+    - mv examples/multi-project/build/vite/dist kotlin-multi-example
+    - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
+    - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/kotlin-multi-example/index.html" >>deploy.env
+
+  artifacts:
+    paths:
+      - kotlin-multi-example
+    expose_as: Multi-project example
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG/example-multi-project
+    url: $URL
+    deployment_tier: development
+
 # endregion
 # region Publishing
 

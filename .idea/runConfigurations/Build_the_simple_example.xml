@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Example Simple → Clean" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="Build the simple example" type="GradleRunConfiguration" factoryName="Gradle" folderName="Simple example">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,8 +10,8 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="tasks" />
-          <option value="clean" />
+          <option value="dumpViteConfiguration" />
+          <option value="build" />
         </list>
       </option>
       <option name="vmOptions" />
