@@ -18,7 +18,7 @@ internal fun createCopyTask(project: Project, name: String, sourceTask: String, 
 		group = KotlinVitePlugin.GROUP
 		description = "Prepares the Vite working directory"
 
-		dependsOn("jsPackageJson", "kotlinNodeJsSetup")
+		dependsOn("jsPackageJson", ":kotlinNodeJsSetup")
 
 		from(project.tasks.named(sourceTask))
 		into(destination.map { it.dir("kotlin") })
