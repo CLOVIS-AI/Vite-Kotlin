@@ -55,6 +55,8 @@ example:simple:
 
   after_script:
     - mv examples/simple/build/vite/dist kotlin-example
+    - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
+    - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/kotlin-example/index.html" >>deploy.env
     - echo "# TYPE production_size gauge" >>metrics.txt
     - >
       for file in $(find kotlin-example);
@@ -71,6 +73,12 @@ example:simple:
     expose_as: Simple example
     reports:
       metrics: metrics.txt
+      dotenv: deploy.env
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG/example-simple
+    url: $URL
+    deployment_tier: development
+  interruptible: true
 
 # endregion
 # region Publishing
