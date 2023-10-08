@@ -29,6 +29,10 @@ library {
 	homeUrl.set("https://gitlab.com/opensavvy/kotlin-vite")
 }
 
+java {
+	withSourcesJar()
+}
+
 afterEvaluate {
 	tasks.named("generatePomFileForVitePluginMarkerMavenPublication", GenerateMavenPom::class.java) {
 		pom.name.set("Vite for Kotlin")
@@ -37,6 +41,12 @@ afterEvaluate {
 
 		pom.scm {
 			url.set("https://gitlab.com/opensavvy/kotlin-vite")
+		}
+	}
+
+	publishing {
+		publications.named("vitePluginMarkerMaven", MavenPublication::class.java) {
+			from(components["java"])
 		}
 	}
 }
