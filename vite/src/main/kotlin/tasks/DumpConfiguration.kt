@@ -12,11 +12,6 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 		description = "Prints the configuration of the Vite plugin"
 
 		doLast {
-			val plugins = config.plugins.get()
-				.takeIf { it.isNotEmpty() }
-				?.joinToString(separator = "\n                   ")
-				?: "(none)"
-
 			println("""
 					» Top-level
 					Vite version  ${config.version.get()}
