@@ -12,7 +12,7 @@ repositories {
 gradlePlugin {
 	plugins {
 		create("vite") {
-			id = "opensavvy.vite.kotlin"
+			id = "dev.opensavvy.vite.kotlin"
 			implementationClass = "opensavvy.gradle.vite.kotlin.KotlinVitePlugin"
 		}
 	}

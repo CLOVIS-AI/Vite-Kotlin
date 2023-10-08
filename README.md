@@ -19,7 +19,7 @@ The Vite plugin is used to bundle the final application, so the JS source set mu
 // build.gradle.kts
 plugins {
 	kotlin("multiplatform")
-	id("opensavvy.vite.kotlin") version "<add the version here>"
+	id("dev.opensavvy.vite.kotlin") version "<add the version here>"
 }
 
 repositories {
