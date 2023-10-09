@@ -12,6 +12,9 @@ import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion.
 import org.jetbrains.kotlin.gradle.targets.js.npm.NpmProject
 import java.io.File
 
+/**
+ * Executes a Vite command in the context of this project.
+ */
 @Suppress("LeakingThis")
 @CacheableTask
 abstract class ViteExecTask : DefaultTask() {
