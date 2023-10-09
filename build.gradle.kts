@@ -10,4 +10,22 @@
 plugins {
 	id("conventions.base")
 	id("conventions.root")
+
+	// Some plugins *must* be configured on the root project.
+	// In these cases, we explicitly tell Gradle not to apply them.
+	alias(playgroundLibs.plugins.kotlin) apply false
+
+	alias(playgroundLibs.plugins.dokkatoo)
+}
+
+dependencies {
+	// List the 'library' projects
+	dokkatoo(projects.vite)
+
+	// This is required at the moment, see https://github.com/adamko-dev/dokkatoo/issues/14
+	dokkatooPluginHtml(
+		dokkatoo.versions.jetbrainsDokka.map { dokkaVersion ->
+			"org.jetbrains.dokka:all-modules-page-plugin:$dokkaVersion"
+		}
+	)
 }

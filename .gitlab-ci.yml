@@ -200,6 +200,37 @@ publish-maven:central:close:
     - if: $CI_COMMIT_TAG
 
 # endregion
+# region API documentation
+
+dokka:
+  extends: [ .os.gradle ]
+  stage: build
+  needs: [ os.version ]
+
+  script:
+    - >
+      ./gradlew :dokkatooGeneratePublicationHtml
+      -PappVersion=$project_version
+
+  after_script:
+    - mkdir -p api-docs
+    - mv build/dokka/html/* api-docs
+    - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
+    - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/api-docs/index.html" >>deploy.env
+
+  artifacts:
+    paths:
+      - api-docs
+    reports:
+      dotenv: deploy.env
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG/api-docs
+    url: $URL
+    deployment_tier: development
+
+  interruptible: true
+
+# endregion
 # region Automatically mirror the previous layer of the playground
 
 mirror-playground:
@@ -221,5 +252,27 @@ mirror-playground:
     - if: $CI_PIPELINE_SOURCE == 'schedule'
     - when: manual
       allow_failure: true
+
+# endregion
+# GitLab Pages
+
+pages:
+  image: alpine:latest
+  stage: deploy
+  needs:
+    - job: dokka
+      artifacts: true
+
+  script:
+    - mkdir -p public
+    - mv api-docs public
+
+  artifacts:
+    paths:
+      - public
+
+  rules:
+    - if: $CI_COMMIT_TAG
+  interruptible: false
 
 # endregion

@@ -1,12 +1,12 @@
 package conventions
 
-import gradle.kotlin.dsl.accessors._b6bea14fb88fd11e46d6fb1ebe601eab.ext
-import gradle.kotlin.dsl.accessors._b6bea14fb88fd11e46d6fb1ebe601eab.publishing
-import gradle.kotlin.dsl.accessors._b6bea14fb88fd11e46d6fb1ebe601eab.signing
+import java.net.URI
 
 plugins {
 	id("maven-publish")
 	id("signing")
+
+	id("dev.adamko.dokkatoo-html")
 }
 
 // Global configuration for the repository
@@ -113,3 +113,56 @@ run {
 }
 
 //endregion
+// region Documentation
+
+dokkatoo {
+	moduleName.set(config.name)
+
+	dokkatooSourceSets.configureEach {
+		// region Include the correct HTML file, if it exists
+		if (name.endsWith("Main")) {
+			val setName = name.removeSuffix("Main")
+
+			val headerName =
+				if (setName == "common") "README.md"
+				else "README.$setName.md"
+
+			val headerPath = "${project.projectDir}/$headerName"
+			if (File(headerPath).exists())
+				includes.from(headerPath)
+			else
+				logger.info("No specific documentation file found for $setName, expected to find $headerPath")
+		}
+		// endregion
+		// region Dependencies
+
+		fun dependencyDocumentation(name: String, url: String) = externalDocumentationLinks.register(name) {
+			this.url.set(URI(url))
+		}
+
+		dependencyDocumentation("KotlinX.Coroutines", "https://kotlinlang.org/api/kotlinx.coroutines/")
+		dependencyDocumentation("KotlinX.Serialization", "https://kotlinlang.org/api/kotlinx.serialization/")
+		dependencyDocumentation("Ktor", "https://api.ktor.io/")
+		dependencyDocumentation("Arrow", "https://apidocs.arrow-kt.io")
+
+		// endregion
+		// region Link to the sources
+
+		val projectUrl = System.getenv("CI_PROJECT_URL")
+		val commit = System.getenv("CI_COMMIT_SHA") ?: "main"
+
+		if (projectUrl != null) {
+			sourceLink {
+				val path = projectDir.relativeTo(rootProject.projectDir)
+
+				localDirectory.set(file("src"))
+				remoteUrl.set(URI("$projectUrl/-/blob/$commit/$path/src"))
+				remoteLineSuffix.set("#L")
+			}
+		}
+
+		// endregion
+	}
+}
+
+// endregion

@@ -10,6 +10,10 @@ dependencyResolutionManagement {
 		create("libs") {
 			from(files("../libs.versions.toml"))
 		}
+
+		create("playgroundLibs") {
+			from(files("../playground.versions.toml"))
+		}
 	}
 }
 

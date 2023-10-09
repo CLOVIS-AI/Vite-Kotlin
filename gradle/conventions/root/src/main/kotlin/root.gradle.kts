@@ -20,3 +20,7 @@ nexusPublishing {
 		}
 	}
 }
+
+repositories {
+	mavenCentral()
+}

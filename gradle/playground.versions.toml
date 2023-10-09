@@ -1,0 +1,19 @@
+# Library versions common between all projects based on the Playground
+# This helps ensure all our projects are aligned
+
+[versions]
+kotlin = "1.9.10"
+dokkatoo = "2.0.0"
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+dokkatoo = { id = "dev.adamko.dokkatoo-html", version.ref = "dokkatoo" }
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-nexusPublish = { module = "io.github.gradle-nexus:publish-plugin", version = "1.3.0" }
+gradle-dokkatoo = { module = "dev.adamko.dokkatoo:dokkatoo-plugin", version.ref = "dokkatoo" }
+
+[bundles]
