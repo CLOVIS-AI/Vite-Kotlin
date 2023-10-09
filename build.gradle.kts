@@ -20,7 +20,7 @@ plugins {
 
 dependencies {
 	// List the 'library' projects
-	dokkatoo(projects.core)
+	dokkatoo(projects.vite)
 
 	// This is required at the moment, see https://github.com/adamko-dev/dokkatoo/issues/14
 	dokkatooPluginHtml(
