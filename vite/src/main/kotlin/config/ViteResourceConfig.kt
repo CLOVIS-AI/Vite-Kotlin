@@ -3,6 +3,17 @@ package opensavvy.gradle.vite.kotlin.config
 import org.gradle.api.Project
 import org.gradle.api.provider.ListProperty
 
+/**
+ * Declares which resources from other Kotlin Multiplatform projects should be imported.
+ *
+ * ```kotlin
+ * vite {
+ *     resources {
+ *         // …
+ *     }
+ * }
+ * ```
+ */
 interface ViteResourceConfig {
 
 	/**

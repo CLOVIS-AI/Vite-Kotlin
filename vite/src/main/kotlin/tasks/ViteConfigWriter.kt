@@ -20,6 +20,9 @@ import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.work.DisableCachingByDefault
 import java.io.File
 
+/**
+ * Generates the `vite.config.js` file from the values configured in the [vite block][ViteConfig].
+ */
 @Suppress("LeakingThis")
 @DisableCachingByDefault(because = "Not worth caching")
 abstract class ViteConfigWriter : DefaultTask() {
@@ -41,7 +44,7 @@ abstract class ViteConfigWriter : DefaultTask() {
 	/**
 	 * The path to the `vite.config.js` file which will be created by this task.
 	 *
-	 * By default, it is created in the [workingDirectory] directory.
+	 * By default, it is created in the [buildRoot] directory.
 	 */
 	@get:OutputFile
 	abstract val configurationFile: RegularFileProperty
@@ -90,7 +93,9 @@ abstract class ViteConfigWriter : DefaultTask() {
 	}
 
 	companion object {
+		/** Name of the default configuration task for the dev build. */
 		const val NAME_DEV = "viteConfigureDev"
+		/** Name of the default configuration task for the production build. */
 		const val NAME_PROD = "viteConfigureProd"
 	}
 }

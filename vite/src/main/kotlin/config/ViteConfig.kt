@@ -5,12 +5,33 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Nested
 import org.intellij.lang.annotations.Language
 
+/**
+ * The main configuration block, exposed by the `vite` extension:
+ *
+ * ```kotlin
+ * plugins {
+ *     // …
+ * }
+ *
+ * vite {
+ *     // …
+ * }
+ * ```
+ */
 interface ViteConfig {
 
 	/**
 	 * The version of the Vite package used by this build.
 	 *
 	 * The list of versions is available [on the NPM website](https://www.npmjs.com/package/vite?activeTab=versions).
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     version.set("3.0.0")
+	 * }
+	 * ```
 	 */
 	val version: Property<String>
 
@@ -62,12 +83,32 @@ interface ViteConfig {
 
 	/**
 	 * Configuration for Rollup to build the production bundle.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     build {
+	 *         // …
+	 *     }
+	 * }
+	 * ```
 	 */
 	@get:Nested
 	val build: ViteBuildConfig
 
 	/**
 	 * Declare where transitive resources should be imported from.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     resources {
+	 *         // …
+	 *     }
+	 * }
+	 * ```
 	 */
 	@get:Nested
 	val resources: ViteResourceConfig

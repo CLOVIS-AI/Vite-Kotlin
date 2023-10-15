@@ -144,6 +144,7 @@ dokkatoo {
 		dependencyDocumentation("KotlinX.Serialization", "https://kotlinlang.org/api/kotlinx.serialization/")
 		dependencyDocumentation("Ktor", "https://api.ktor.io/")
 		dependencyDocumentation("Arrow", "https://apidocs.arrow-kt.io")
+		dependencyDocumentation("Gradle", "https://docs.gradle.org/current/javadoc/")
 
 		// endregion
 		// region Link to the sources

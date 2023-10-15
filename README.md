@@ -8,10 +8,6 @@ Gradle plugin to create [Kotlin/JS](https://kotlinlang.org/docs/js-overview.html
 
 ### Minimal configuration
 
-> **Important:**
-> This section is under construction.
-> At the moment, the plugin is not yet published anywhere, so it is not possible to import it without cloning the repository.
-
 Always import the Kotlin Multiplatform plugin before this plugin.
 The Vite plugin is used to bundle the final application, so the JS source set must be executable.
 
