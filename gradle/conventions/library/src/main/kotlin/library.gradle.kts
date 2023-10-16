@@ -120,11 +120,11 @@ dokkatoo {
 
 	dokkatooSourceSets.configureEach {
 		// region Include the correct HTML file, if it exists
-		if (name.endsWith("Main")) {
+		if (name.endsWith("Main") || name == "main") {
 			val setName = name.removeSuffix("Main")
 
 			val headerName =
-				if (setName == "common") "README.md"
+				if (setName == "common" || name == "main") "README.md"
 				else "README.$setName.md"
 
 			val headerPath = "${project.projectDir}/$headerName"
