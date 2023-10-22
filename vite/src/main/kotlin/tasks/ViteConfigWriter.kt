@@ -42,6 +42,12 @@ abstract class ViteConfigWriter : DefaultTask() {
 	abstract val buildTarget: Property<String>
 
 	/**
+	 * The directory in which the distribution will be created.
+	 */
+	@get:Input
+	abstract val outDir: Property<String>
+
+	/**
 	 * The path to the `vite.config.js` file which will be created by this task.
 	 *
 	 * By default, it is created in the [buildRoot] directory.
@@ -57,6 +63,7 @@ abstract class ViteConfigWriter : DefaultTask() {
 		plugins.convention(config.plugins)
 		buildTarget.convention(config.build.target)
 		configurationFile.convention(buildRoot.map { "$it/vite.config.js" }.map { RegularFile { File(it) } })
+		outDir.convention(project.viteBuildDistDir.map { it.asFile.absolutePath })
 	}
 
 	private fun pluginImport(plugin: ExternalVitePlugin) = if (plugin.isNamedExport)
@@ -84,7 +91,7 @@ abstract class ViteConfigWriter : DefaultTask() {
                 ],
                 build: {
                     target: '${buildTarget.get()}',
-                    outDir: '${project.viteBuildDistDir.get()}'
+                    outDir: '${outDir.get()}'
                 }
             }
 
