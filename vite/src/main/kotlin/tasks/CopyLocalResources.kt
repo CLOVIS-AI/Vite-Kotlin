@@ -17,16 +17,16 @@ internal fun copyLocalResources(project: Project, config: ViteConfig) {
 			)
 
 			for ((envName, envDir) in environments) {
-				val dependentPath = dependentProject.path.split(":").joinToString(separator = "") { it.capitalized() }
+				val dependentPath = dependentProject.split(":").joinToString(separator = "") { it.capitalized() }
 
 				val copy = project.tasks.register("copyResourcesFrom$dependentPath$envName", Copy::class.java) {
 					group = KotlinVitePlugin.GROUP
-					description = "Copies the resources of project ${dependentProject.path} into the current project's working directory"
+					description = "Copies the resources of project $dependentProject into the current project's working directory"
 
 					dependsOn("viteCompileKotlin$envName")
 
-					from(dependentProject.tasks.named("jsProcessResources"))
-					into(envDir.map { it.dir("kotlin/" + dependentProject.path.removePrefix(":").replace(":", "-")) })
+					from(project(dependentProject).tasks.named("jsProcessResources"))
+					into(envDir.map { it.dir("kotlin/" + dependentProject.removePrefix(":").replace(":", "-")) })
 				}
 
 				project.tasks.named("viteCompile$envName") {

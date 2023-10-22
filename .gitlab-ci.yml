@@ -44,6 +44,8 @@ check:
       ./gradlew
       -p examples/$example
       --include-build ../..
+      --configure-on-demand
+      --configuration-cache
       tasks dumpViteConfiguration build
 
   interruptible: true

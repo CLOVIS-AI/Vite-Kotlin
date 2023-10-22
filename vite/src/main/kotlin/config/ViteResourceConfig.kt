@@ -17,14 +17,14 @@ import org.gradle.api.provider.ListProperty
 interface ViteResourceConfig {
 
 	/**
-	 * Local Gradle projects from which resources should be imported.
+	 * Local Gradle projects from which resources should be imported (identified by their [path][Project.getPath]).
 	 *
 	 * The projects in this list should have the Kotlin Multiplatform plugin and the JS platform enabled.
 	 * They do not need to have the Vite plugin.
 	 *
 	 * For convenience, you may use the [from] method.
 	 */
-	val projects: ListProperty<Project>
+	val projects: ListProperty<String>
 
 	/**
 	 * Adds a project's resources to the current project's directory.
@@ -52,7 +52,7 @@ interface ViteResourceConfig {
 	 * ```
 	 */
 	fun from(project: Project) {
-		projects.add(project)
+		projects.add(project.path)
 	}
 
 }

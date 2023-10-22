@@ -7,6 +7,9 @@ import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.Project
 
 internal fun createDumpTask(project: Project, config: ViteConfig) {
+	val viteBuildDev = project.viteBuildDevDir
+	val viteBuildProd = project.viteBuildProdDir
+
 	project.tasks.register("dumpViteConfiguration") {
 		group = KotlinVitePlugin.GROUP
 		description = "Prints the configuration of the Vite plugin"
@@ -21,11 +24,11 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 					Target        ${config.build.target.get()}
 					
 					» Destinations
-					Dev           ${project.viteBuildDevDir.get()}
-					Production    ${project.viteBuildProdDir.get()}
+					Dev           ${viteBuildDev.get()}
+					Production    ${viteBuildProd.get()}
 					
 					» Transitive resource dependencies
-					Projects      ${config.resources.projects.get().dump { it.path }}
+					Projects      ${config.resources.projects.get().dump()}
 				""".trimIndent())
 		}
 	}
