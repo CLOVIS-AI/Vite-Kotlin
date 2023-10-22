@@ -8,16 +8,20 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
+import org.gradle.process.ExecOperations
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion.kotlinNodeJsExtension
 import org.jetbrains.kotlin.gradle.targets.js.npm.NpmProject
 import java.io.File
+import javax.inject.Inject
 
 /**
  * Executes a Vite command in the context of this project.
  */
 @Suppress("LeakingThis")
 @CacheableTask
-abstract class ViteExecTask : DefaultTask() {
+abstract class ViteExecTask @Inject constructor(
+	private val process: ExecOperations,
+) : DefaultTask() {
 
 	/**
 	 * The Vite command to execute, for example `run` or `build`.
@@ -61,19 +65,17 @@ abstract class ViteExecTask : DefaultTask() {
 
 		arguments.convention(emptyList())
 
-		val kotlinEnvironment = project.provider {
-			project.rootProject.kotlinNodeJsExtension
-		}
+		val kotlinEnvironment = project.rootProject.kotlinNodeJsExtension
 		nodePath.convention(
 			kotlinEnvironment
-				.map { it.requireConfigured() }
-				.map { RegularFile { File(it.nodeExecutable) } }
+				.requireConfigured()
+				.let { RegularFile { File(it.nodeExecutable) } }
 		)
 
 		vitePath.convention(
 			kotlinEnvironment
-				.map { it.projectPackagesDir.parentFile.resolve(NpmProject.NODE_MODULES) }
-				.map { RegularFile { File("$it/vite/bin/vite.js") } }
+				.projectPackagesDir.parentFile.resolve(NpmProject.NODE_MODULES)
+				.let { RegularFile { File("$it/vite/bin/vite.js") } }
 		)
 
 		val config = project.kotlinViteExtension
@@ -82,7 +84,7 @@ abstract class ViteExecTask : DefaultTask() {
 
 	@TaskAction
 	fun execute() {
-		project.exec {
+		process.exec {
 			commandLine(
 				nodePath.get().asFile.absolutePath,
 				vitePath.get().asFile.absolutePath,

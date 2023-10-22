@@ -14,6 +14,8 @@ import kotlin.io.path.isSymbolicLink
 import kotlin.io.path.readSymbolicLink
 
 internal fun createCopyTask(project: Project, name: String, sourceTask: String, destination: Provider<Directory>) {
+	val rootBuildDir = project.rootProject.layout.buildDirectory
+
 	project.tasks.register(name, Sync::class.java) {
 		group = KotlinVitePlugin.GROUP
 		description = "Prepares the Vite working directory"
@@ -26,7 +28,7 @@ internal fun createCopyTask(project: Project, name: String, sourceTask: String, 
 
 		doLast {
 			val nodeModules = Path.of(destination.get().asFile.absolutePath, "node_modules")
-			val realNodeModules = Path.of(project.rootProject.layout.buildDirectory.dir("js/node_modules").get().asFile.absolutePath)
+			val realNodeModules = Path.of(rootBuildDir.dir("js/node_modules").get().asFile.absolutePath)
 
 			if (nodeModules.exists() && nodeModules.isSymbolicLink() && nodeModules.readSymbolicLink() != realNodeModules) {
 				// it exists, but doesn't point to the correct place
