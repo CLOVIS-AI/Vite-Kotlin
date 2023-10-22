@@ -28,7 +28,7 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 					Production    ${viteBuildProd.get()}
 					
 					» Transitive resource dependencies
-					Projects      ${config.resources.projects.get().dump { it.path }}
+					Projects      ${config.resources.projects.get().dump()}
 				""".trimIndent())
 		}
 	}
