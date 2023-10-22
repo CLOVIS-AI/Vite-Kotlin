@@ -103,7 +103,7 @@ abstract class ViteExecTask @Inject constructor(
 internal fun createExecTasks(project: Project) {
 	project.tasks.register("viteBuild", ViteExecTask::class.java) {
 		description = "Builds the production variant of the project"
-		dependsOn("viteConfigureProd", ":kotlinNpmInstall")
+		dependsOn("viteConfigureProd", "viteCompileProd", ":kotlinNpmInstall")
 
 		command.set("build")
 
@@ -113,7 +113,7 @@ internal fun createExecTasks(project: Project) {
 
 	project.tasks.register("viteRun", ViteExecTask::class.java) {
 		description = "Hosts the development variant of the project"
-		dependsOn("viteConfigureDev", ":kotlinNpmInstall")
+		dependsOn("viteConfigureDev", "viteCompileDev", ":kotlinNpmInstall")
 
 		workingDirectory.set(project.viteBuildDevDir.map { "$it/kotlin" })
 	}
