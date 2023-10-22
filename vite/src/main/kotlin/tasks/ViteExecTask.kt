@@ -101,7 +101,7 @@ abstract class ViteExecTask : DefaultTask() {
 internal fun createExecTasks(project: Project) {
 	project.tasks.register("viteBuild", ViteExecTask::class.java) {
 		description = "Builds the production variant of the project"
-		dependsOn("viteConfigureProd")
+		dependsOn("viteConfigureProd", ":kotlinNpmInstall")
 
 		command.set("build")
 
