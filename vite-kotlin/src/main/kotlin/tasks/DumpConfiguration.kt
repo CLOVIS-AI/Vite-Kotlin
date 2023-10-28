@@ -1,6 +1,8 @@
 package opensavvy.gradle.vite.kotlin.tasks
 
 import opensavvy.gradle.vite.base.config.ViteConfig
+import opensavvy.gradle.vite.base.config.dumpViteConfig
+import opensavvy.gradle.vite.base.dump.dump
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.kotlin.viteBuildDevDir
 import opensavvy.gradle.vite.kotlin.viteBuildProdDir
@@ -15,26 +17,14 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 		description = "Prints the configuration of the Vite plugin"
 
 		doLast {
-			println("""
-					» Top-level
-					Vite version  ${config.version.get()}
-					Plugins       ${config.plugins.get().dump()}
-					
-					» Build
-					Target        ${config.build.target.get()}
-					
-					» Destinations
-					Dev           ${viteBuildDev.get()}
-					Production    ${viteBuildProd.get()}
-					
-					» Transitive resource dependencies
-					Projects      ${config.resources.projects.get().dump()}
-				""".trimIndent())
+			println(dump {
+				dumpViteConfig(config)
+
+				section("Destinations") {
+					value("Development", viteBuildDev.get())
+					value("Production", viteBuildProd.get())
+				}
+			})
 		}
 	}
 }
-
-private fun <T> Collection<T>.dump(transform: (T) -> CharSequence = { it.toString() }) = this
-	.takeIf { it.isNotEmpty() }
-	?.joinToString(separator = "\n                   ", transform = transform)
-	?: "(none)"
