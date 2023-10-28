@@ -13,21 +13,15 @@ repositories {
 gradlePlugin {
 	plugins {
 		create("vite") {
-			id = "dev.opensavvy.vite.kotlin"
-			implementationClass = "opensavvy.gradle.vite.kotlin.KotlinVitePlugin"
+			id = "dev.opensavvy.vite.base"
+			implementationClass = "opensavvy.gradle.vite.base.BaseVitePlugin"
 		}
 	}
 }
 
-dependencies {
-	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${playgroundLibs.versions.kotlin.get()}")
-
-	api(projects.viteBase)
-}
-
 library {
-	name.set("Vite for Kotlin")
-	description.set("Gradle plugin to use Vite instead of Webpack in Kotlin Multiplatform projects")
+	name.set("Vite for Gradle")
+	description.set("Gradle plugin to use Vite")
 	homeUrl.set("https://gitlab.com/opensavvy/kotlin-vite")
 }
 
@@ -37,8 +31,8 @@ java {
 
 afterEvaluate {
 	tasks.named("generatePomFileForVitePluginMarkerMavenPublication", GenerateMavenPom::class.java) {
-		pom.name.set("Vite for Kotlin")
-		pom.description.set("Plugin marker for the Gradle plugin Vite for Kotlin")
+		pom.name.set("Vite for Gradle")
+		pom.description.set("Plugin marker for the Gradle plugin for Vite")
 		pom.url.set("https://gitlab.com/opensavvy/kotlin-vite")
 
 		pom.scm {

@@ -32,6 +32,7 @@ plugins {
 
 include(
 	"vite",
+	"vite-base",
 )
 
 buildCache {
