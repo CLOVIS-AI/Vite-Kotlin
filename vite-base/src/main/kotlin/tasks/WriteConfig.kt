@@ -1,14 +1,9 @@
-package opensavvy.gradle.vite.kotlin.tasks
+package opensavvy.gradle.vite.base.tasks
 
-import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.base.config.ExternalVitePlugin
 import opensavvy.gradle.vite.base.config.ViteBuildConfig
 import opensavvy.gradle.vite.base.config.ViteConfig
-import opensavvy.gradle.vite.kotlin.viteBuildDevDir
-import opensavvy.gradle.vite.kotlin.viteBuildDistDir
-import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.DefaultTask
-import org.gradle.api.Project
 import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
@@ -16,7 +11,6 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.work.DisableCachingByDefault
 import java.io.File
 
@@ -25,7 +19,7 @@ import java.io.File
  */
 @Suppress("LeakingThis")
 @DisableCachingByDefault(because = "Not worth caching")
-abstract class ViteConfigWriter : DefaultTask() {
+abstract class WriteConfig : DefaultTask() {
 
 	/**
 	 * Directory in which the build happens.
@@ -57,13 +51,11 @@ abstract class ViteConfigWriter : DefaultTask() {
 
 	init {
 		description = "Generates the vite.config.js file"
-		group = KotlinVitePlugin.GROUP
 
 		val config = project.extensions.getByType(ViteConfig::class.java)
 		plugins.convention(config.plugins)
 		buildTarget.convention(config.build.target)
 		configurationFile.convention(buildRoot.map { "$it/vite.config.js" }.map { RegularFile { File(it) } })
-		outDir.convention(project.viteBuildDistDir.map { it.asFile.absolutePath })
 	}
 
 	private fun pluginImport(plugin: ExternalVitePlugin) = if (plugin.isNamedExport)
@@ -97,30 +89,5 @@ abstract class ViteConfigWriter : DefaultTask() {
 
         """.trimIndent()
 		)
-	}
-
-	companion object {
-		/** Name of the default configuration task for the dev build. */
-		const val NAME_DEV = "viteConfigureDev"
-		/** Name of the default configuration task for the production build. */
-		const val NAME_PROD = "viteConfigureProd"
-	}
-}
-
-internal fun createConfigWriterTasks(project: Project) {
-	project.tasks.register(ViteConfigWriter.NAME_DEV, ViteConfigWriter::class.java) {
-		dependsOn("viteCompileDev")
-
-		buildRoot.convention(project.viteBuildDevDir.map { it.asFile.absolutePath })
-	}
-
-	project.tasks.register(ViteConfigWriter.NAME_PROD, ViteConfigWriter::class.java) {
-		dependsOn("viteCompileProd")
-
-		buildRoot.convention(project.viteBuildProdDir.map { it.asFile.absolutePath })
-	}
-
-	project.tasks.named("clean") {
-		dependsOn("clean${ViteConfigWriter.NAME_DEV.capitalized()}", "clean${ViteConfigWriter.NAME_PROD.capitalized()}")
 	}
 }
