@@ -31,8 +31,8 @@ plugins {
 }
 
 include(
-	"vite",
 	"vite-base",
+	"vite-kotlin",
 )
 
 buildCache {

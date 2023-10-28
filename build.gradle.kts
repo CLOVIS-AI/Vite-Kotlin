@@ -20,7 +20,7 @@ plugins {
 
 dependencies {
 	// List the 'library' projects
-	dokkatoo(projects.vite)
+	dokkatoo(projects.viteKotlin)
 	dokkatoo(projects.viteBase)
 
 	// This is required at the moment, see https://github.com/adamko-dev/dokkatoo/issues/14
