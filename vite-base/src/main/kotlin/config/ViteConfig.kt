@@ -3,6 +3,7 @@ package opensavvy.gradle.vite.base.config
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 import org.intellij.lang.annotations.Language
 
@@ -30,6 +31,16 @@ interface ViteConfig {
 		base.convention("/")
 	}
 
+	fun setDefaultsFrom(other: ViteConfig) {
+		version.convention(other.version)
+		root.convention(other.root)
+		base.convention(other.base)
+		plugins.convention(other.plugins)
+		build.target.convention(other.build.target)
+		build.outDir.convention(other.build.outDir)
+		resources.projects.convention(other.resources.projects)
+	}
+
 	/**
 	 * The version of the Vite package used by this build.
 	 *
@@ -45,6 +56,7 @@ interface ViteConfig {
 	 *
 	 * - [List of versions](https://www.npmjs.com/package/vite?activeTab=versions).
 	 */
+	@get:Internal
 	val version: Property<String>
 
 	/**
@@ -62,6 +74,7 @@ interface ViteConfig {
 	 *
 	 * - [Official documentation](https://vitejs.dev/config/shared-options.html#root)
 	 */
+	@get:Internal
 	val root: DirectoryProperty
 
 	/**
@@ -86,6 +99,7 @@ interface ViteConfig {
 	 * - [Official documentation](https://vitejs.dev/config/shared-options.html#base)
 	 * - [Setting the public base path](https://vitejs.dev/guide/build.html#public-base-path)
 	 */
+	@get:Internal
 	val base: Property<String>
 
 	/**
@@ -95,6 +109,7 @@ interface ViteConfig {
 	 *
 	 * For more information on plugins, see [ExternalVitePlugin].
 	 */
+	@get:Internal
 	val plugins: ListProperty<ExternalVitePlugin>
 
 	/**

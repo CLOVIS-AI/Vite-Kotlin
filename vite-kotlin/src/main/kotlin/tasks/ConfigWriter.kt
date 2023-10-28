@@ -18,16 +18,26 @@ internal fun createConfigWriterTasks(project: Project) {
 		dependsOn("viteCompileDev")
 		group = KotlinVitePlugin.GROUP
 
-		outDir.convention(project.viteBuildDistDir.map { it.asFile.absolutePath })
-		buildRoot.convention(project.viteBuildDevDir.map { it.asFile.absolutePath })
+		config {
+			root.set(project.viteBuildDevDir)
+
+			build {
+				outDir.set(project.viteBuildDistDir)
+			}
+		}
 	}
 
 	project.tasks.register(VITE_CONFIGURE_PROD_NAME, WriteConfig::class.java) {
 		dependsOn("viteCompileProd")
 		group = KotlinVitePlugin.GROUP
 
-		outDir.convention(project.viteBuildDistDir.map { it.asFile.absolutePath })
-		buildRoot.convention(project.viteBuildProdDir.map { it.asFile.absolutePath })
+		config {
+			root.convention(project.viteBuildProdDir)
+
+			build {
+				outDir.convention(project.viteBuildDistDir)
+			}
+		}
 	}
 
 	project.tasks.named("clean") {

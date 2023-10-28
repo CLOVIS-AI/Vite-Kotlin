@@ -1,6 +1,7 @@
 package opensavvy.gradle.vite.kotlin
 
 import opensavvy.gradle.vite.base.config.ViteConfig
+import opensavvy.gradle.vite.base.viteConfig
 import opensavvy.gradle.vite.kotlin.config.defaultConfiguration
 import opensavvy.gradle.vite.kotlin.tasks.*
 import org.gradle.api.Plugin
@@ -15,7 +16,7 @@ class KotlinVitePlugin : Plugin<Project> {
 
 		target.pluginManager.apply("dev.opensavvy.vite.base")
 
-		val config = target.extensions.create("vite", ViteConfig::class.java)
+		val config = target.viteConfig
 		config.defaultConfiguration()
 
 		// Lifecycle tasks for convenience
