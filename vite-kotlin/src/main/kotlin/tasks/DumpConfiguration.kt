@@ -21,8 +21,8 @@ internal fun createDumpTask(project: Project, config: ViteConfig) {
 				dumpViteConfig(config)
 
 				section("Destinations") {
-					value("Development", viteBuildDev.get())
-					value("Production", viteBuildProd.get())
+					value("Development", viteBuildDev)
+					value("Production", viteBuildProd)
 				}
 			})
 		}
