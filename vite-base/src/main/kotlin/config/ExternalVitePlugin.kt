@@ -1,4 +1,4 @@
-package opensavvy.gradle.vite.kotlin.config
+package opensavvy.gradle.vite.base.config
 
 import org.intellij.lang.annotations.Language
 import java.io.Serializable

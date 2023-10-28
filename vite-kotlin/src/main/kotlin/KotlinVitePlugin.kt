@@ -1,6 +1,6 @@
 package opensavvy.gradle.vite.kotlin
 
-import opensavvy.gradle.vite.kotlin.config.ViteConfig
+import opensavvy.gradle.vite.base.config.ViteConfig
 import opensavvy.gradle.vite.kotlin.config.defaultConfiguration
 import opensavvy.gradle.vite.kotlin.tasks.*
 import org.gradle.api.Plugin

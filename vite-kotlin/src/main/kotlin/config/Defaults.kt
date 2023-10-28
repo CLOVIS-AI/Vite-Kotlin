@@ -1,8 +1,9 @@
 package opensavvy.gradle.vite.kotlin.config
 
+import opensavvy.gradle.vite.base.config.ViteConfig
+
 internal fun ViteConfig.defaultConfiguration() {
-	// Root
-	version.convention("4.4.9")
+	setDefaults()
 
 	plugin("@originjs/vite-plugin-commonjs", "viteCommonjs", "1.0.3", isNamedExport = true)
 	plugin("@rollup/plugin-commonjs", "commonjs", "24.0.1")

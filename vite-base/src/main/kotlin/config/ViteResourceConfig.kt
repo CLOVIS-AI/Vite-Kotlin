@@ -1,4 +1,4 @@
-package opensavvy.gradle.vite.kotlin.config
+package opensavvy.gradle.vite.base.config
 
 import org.gradle.api.Project
 import org.gradle.api.provider.ListProperty

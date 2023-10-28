@@ -1,4 +1,4 @@
-package opensavvy.gradle.vite.kotlin.config
+package opensavvy.gradle.vite.base.config
 
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -19,6 +19,14 @@ import org.intellij.lang.annotations.Language
  * ```
  */
 interface ViteConfig {
+
+	/**
+	 * Sets the default values for all configuration fields.
+	 */
+	fun setDefaults() {
+		// Root
+		version.convention("4.4.9")
+	}
 
 	/**
 	 * The version of the Vite package used by this build.

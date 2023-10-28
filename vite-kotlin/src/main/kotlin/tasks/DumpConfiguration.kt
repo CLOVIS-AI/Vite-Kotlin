@@ -1,7 +1,7 @@
 package opensavvy.gradle.vite.kotlin.tasks
 
+import opensavvy.gradle.vite.base.config.ViteConfig
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
-import opensavvy.gradle.vite.kotlin.config.ViteConfig
 import opensavvy.gradle.vite.kotlin.viteBuildDevDir
 import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.Project
