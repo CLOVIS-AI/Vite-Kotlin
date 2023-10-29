@@ -1,6 +1,7 @@
 package opensavvy.gradle.vite.kotlin
 
-import opensavvy.gradle.vite.kotlin.config.ViteConfig
+import opensavvy.gradle.vite.base.config.ViteConfig
+import opensavvy.gradle.vite.base.viteConfig
 import opensavvy.gradle.vite.kotlin.config.defaultConfiguration
 import opensavvy.gradle.vite.kotlin.tasks.*
 import org.gradle.api.Plugin
@@ -13,7 +14,9 @@ class KotlinVitePlugin : Plugin<Project> {
 	override fun apply(target: Project) {
 		check(target.pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")) { """The kotlin("multiplatform") plugin must be applied before the Vite for Kotlin plugin""" }
 
-		val config = target.extensions.create("vite", ViteConfig::class.java)
+		target.pluginManager.apply("dev.opensavvy.vite.base")
+
+		val config = target.viteConfig
 		config.defaultConfiguration()
 
 		// Lifecycle tasks for convenience

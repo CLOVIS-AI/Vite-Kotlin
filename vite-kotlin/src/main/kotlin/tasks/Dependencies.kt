@@ -1,6 +1,6 @@
 package opensavvy.gradle.vite.kotlin.tasks
 
-import opensavvy.gradle.vite.kotlin.config.ViteConfig
+import opensavvy.gradle.vite.base.config.ViteConfig
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 

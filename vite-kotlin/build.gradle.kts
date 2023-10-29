@@ -21,6 +21,8 @@ gradlePlugin {
 
 dependencies {
 	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${playgroundLibs.versions.kotlin.get()}")
+
+	api(projects.viteBase)
 }
 
 library {

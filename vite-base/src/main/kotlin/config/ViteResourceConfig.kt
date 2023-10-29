@@ -1,7 +1,8 @@
-package opensavvy.gradle.vite.kotlin.config
+package opensavvy.gradle.vite.base.config
 
 import org.gradle.api.Project
 import org.gradle.api.provider.ListProperty
+import org.gradle.api.tasks.Internal
 
 /**
  * Declares which resources from other Kotlin Multiplatform projects should be imported.
@@ -24,6 +25,7 @@ interface ViteResourceConfig {
 	 *
 	 * For convenience, you may use the [from] method.
 	 */
+	@get:Internal
 	val projects: ListProperty<String>
 
 	/**

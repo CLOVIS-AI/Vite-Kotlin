@@ -2,7 +2,7 @@
 
 Gradle plugin to use Vite in Kotlin Multiplatform projects.
 
-<a href="https://search.maven.org/search?q=dev.opensavvy.vite.kotlin.gradle.plugin"><img src="https://img.shields.io/maven-central/v/dev.opensavvy.gradle.vite/vite.svg?label=Maven%20Central"></a>
+<a href="https://search.maven.org/search?q=dev.opensavvy.vite.kotlin.gradle.plugin"><img src="https://img.shields.io/maven-central/v/dev.opensavvy.gradle.vite/vite-kotlin.svg?label=Maven%20Central"></a>
 
 ## Import
 

@@ -1,16 +1,14 @@
-package opensavvy.gradle.vite.kotlin.tasks
+package opensavvy.gradle.vite.base.tasks
 
-import opensavvy.gradle.vite.kotlin.*
+import opensavvy.gradle.vite.base.config.ViteConfig
+import opensavvy.gradle.vite.base.viteConfig
 import org.gradle.api.DefaultTask
-import org.gradle.api.Project
 import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
 import org.gradle.process.ExecOperations
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion.kotlinNodeJsExtension
-import org.jetbrains.kotlin.gradle.targets.js.npm.NpmProject
 import java.io.File
 import javax.inject.Inject
 
@@ -19,7 +17,7 @@ import javax.inject.Inject
  */
 @Suppress("LeakingThis")
 @CacheableTask
-abstract class ViteExecTask @Inject constructor(
+abstract class ViteExec @Inject constructor(
 	private val process: ExecOperations,
 ) : DefaultTask() {
 
@@ -56,33 +54,40 @@ abstract class ViteExecTask @Inject constructor(
 	@get:PathSensitive(PathSensitivity.RELATIVE)
 	abstract val vitePath: RegularFileProperty
 
+	/**
+	 * The directory in which the command will be executed.
+	 */
 	@get:Input
 	abstract val workingDirectory: Property<String>
 
+	/**
+	 * The path to the `vite.config.js` file.
+	 */
+	@get:InputFile
+	@get:PathSensitive(PathSensitivity.RELATIVE)
+	abstract val configurationFile: RegularFileProperty
+
+	/**
+	 * The Vite configuration.
+	 */
+	@get:Nested
+	abstract val config: ViteConfig
+
 	init {
-		group = KotlinVitePlugin.GROUP
 		description = "Executes a given Vite command"
 
+		command.convention("")
 		arguments.convention(emptyList())
+		config.setDefaultsFrom(project.viteConfig)
+		configurationFile.convention(config.root.map { "$it/vite.config.js" }.map { RegularFile { File(it) } })
+		workingDirectory.convention(config.root.map { it.asFile.absolutePath })
 
-		val kotlinEnvironment = project.rootProject.kotlinNodeJsExtension
-		nodePath.convention(
-			kotlinEnvironment
-				.requireConfigured()
-				.let { RegularFile { File(it.nodeExecutable) } }
-		)
-
-		vitePath.convention(
-			kotlinEnvironment
-				.projectPackagesDir.parentFile.resolve(NpmProject.NODE_MODULES)
-				.let { RegularFile { File("$it/vite/bin/vite.js") } }
-		)
-
-		val config = project.kotlinViteExtension
 		inputs.property("vite_version", config.version)
 
 		inputs.dir(workingDirectory)
 	}
+
+	fun config(block: ViteConfig.() -> Unit) = config.apply(block)
 
 	@TaskAction
 	fun execute() {
@@ -90,41 +95,13 @@ abstract class ViteExecTask @Inject constructor(
 			commandLine(
 				nodePath.get().asFile.absolutePath,
 				vitePath.get().asFile.absolutePath,
-				command.getOrElse(""),
+				command.get(),
 				"-c",
-				"../vite.config.js",
+				configurationFile.get().asFile.relativeTo(File(workingDirectory.get())),
 				*arguments.get().toTypedArray(),
 			)
 
 			workingDir(workingDirectory.get())
 		}
-	}
-
-}
-
-internal fun createExecTasks(project: Project) {
-	project.tasks.register("viteBuild", ViteExecTask::class.java) {
-		description = "Builds the production variant of the project"
-		dependsOn("viteConfigureProd", "viteCompileProd", ":kotlinNpmInstall")
-
-		command.set("build")
-
-		workingDirectory.set(project.viteBuildProdDir.map { "$it/kotlin" })
-		outputs.dir(project.viteBuildDistDir)
-	}
-
-	project.tasks.register("viteRun", ViteExecTask::class.java) {
-		description = "Hosts the development variant of the project"
-		dependsOn("viteConfigureDev", "viteCompileDev", ":kotlinNpmInstall")
-
-		workingDirectory.set(project.viteBuildDevDir.map { "$it/kotlin" })
-	}
-
-	project.tasks.named("assemble") {
-		dependsOn("viteBuild")
-	}
-
-	project.tasks.named("clean") {
-		dependsOn("cleanViteBuild", "cleanViteRun")
 	}
 }

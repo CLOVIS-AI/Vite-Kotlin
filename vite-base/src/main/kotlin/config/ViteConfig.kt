@@ -1,7 +1,9 @@
-package opensavvy.gradle.vite.kotlin.config
+package opensavvy.gradle.vite.base.config
 
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 import org.intellij.lang.annotations.Language
 
@@ -21,9 +23,26 @@ import org.intellij.lang.annotations.Language
 interface ViteConfig {
 
 	/**
+	 * Sets the default values for all configuration fields.
+	 */
+	fun setDefaults() {
+		// Root
+		version.convention("4.4.9")
+		base.convention("/")
+	}
+
+	fun setDefaultsFrom(other: ViteConfig) {
+		version.convention(other.version)
+		root.convention(other.root)
+		base.convention(other.base)
+		plugins.convention(other.plugins)
+		build.target.convention(other.build.target)
+		build.outDir.convention(other.build.outDir)
+		resources.projects.convention(other.resources.projects)
+	}
+
+	/**
 	 * The version of the Vite package used by this build.
-	 *
-	 * The list of versions is available [on the NPM website](https://www.npmjs.com/package/vite?activeTab=versions).
 	 *
 	 * ### Example
 	 *
@@ -32,8 +51,56 @@ interface ViteConfig {
 	 *     version.set("3.0.0")
 	 * }
 	 * ```
+	 *
+	 * ### External resources
+	 *
+	 * - [List of versions](https://www.npmjs.com/package/vite?activeTab=versions).
 	 */
+	@get:Internal
 	val version: Property<String>
+
+	/**
+	 * Project root directory, where `index.html` is located.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     root.set(project.layout.projectDirectory.file("index.html"))
+	 * }
+	 * ```
+	 *
+	 * ### External resources
+	 *
+	 * - [Official documentation](https://vitejs.dev/config/shared-options.html#root)
+	 */
+	@get:Internal
+	val root: DirectoryProperty
+
+	/**
+	 * Base public path when served in development or production.
+	 *
+	 * Valid values include:
+	 * - Absolute URL pathname, e.g. `/foo/`,
+	 * - Full URL, e.g. `https://foo.com/`,
+	 * - Empty string or `./` (for embedded deployment).
+	 *
+	 * ### Example
+	 *
+	 * To expose the generate website to the `/ui` path instead of the website root, use:
+	 * ```kotlin
+	 * vite {
+	 *     base.set("/ui")
+	 * }
+	 * ```
+	 *
+	 * ### External resources
+	 *
+	 * - [Official documentation](https://vitejs.dev/config/shared-options.html#base)
+	 * - [Setting the public base path](https://vitejs.dev/guide/build.html#public-base-path)
+	 */
+	@get:Internal
+	val base: Property<String>
 
 	/**
 	 * The list of Vite plugins from NPM imported by this project.
@@ -42,6 +109,7 @@ interface ViteConfig {
 	 *
 	 * For more information on plugins, see [ExternalVitePlugin].
 	 */
+	@get:Internal
 	val plugins: ListProperty<ExternalVitePlugin>
 
 	/**
