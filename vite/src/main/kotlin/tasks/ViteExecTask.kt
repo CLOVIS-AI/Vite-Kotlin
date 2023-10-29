@@ -80,6 +80,8 @@ abstract class ViteExecTask @Inject constructor(
 
 		val config = project.kotlinViteExtension
 		inputs.property("vite_version", config.version)
+
+		inputs.dir(workingDirectory)
 	}
 
 	@TaskAction
