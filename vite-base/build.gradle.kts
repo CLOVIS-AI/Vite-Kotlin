@@ -12,7 +12,7 @@ repositories {
 
 gradlePlugin {
 	plugins {
-		create("vite") {
+		create("base") {
 			id = "dev.opensavvy.vite.base"
 			implementationClass = "opensavvy.gradle.vite.base.BaseVitePlugin"
 		}
@@ -30,7 +30,7 @@ java {
 }
 
 afterEvaluate {
-	tasks.named("generatePomFileForVitePluginMarkerMavenPublication", GenerateMavenPom::class.java) {
+	tasks.named("generatePomFileForBasePluginMarkerMavenPublication", GenerateMavenPom::class.java) {
 		pom.name.set("Vite for Gradle")
 		pom.description.set("Plugin marker for the Gradle plugin for Vite")
 		pom.url.set("https://gitlab.com/opensavvy/kotlin-vite")
@@ -41,7 +41,7 @@ afterEvaluate {
 	}
 
 	publishing {
-		publications.named("vitePluginMarkerMaven", MavenPublication::class.java) {
+		publications.named("basePluginMarkerMaven", MavenPublication::class.java) {
 			from(components["java"])
 		}
 	}

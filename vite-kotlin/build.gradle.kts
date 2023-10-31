@@ -12,7 +12,7 @@ repositories {
 
 gradlePlugin {
 	plugins {
-		create("vite") {
+		create("kotlin") {
 			id = "dev.opensavvy.vite.kotlin"
 			implementationClass = "opensavvy.gradle.vite.kotlin.KotlinVitePlugin"
 		}
@@ -36,7 +36,7 @@ java {
 }
 
 afterEvaluate {
-	tasks.named("generatePomFileForVitePluginMarkerMavenPublication", GenerateMavenPom::class.java) {
+	tasks.named("generatePomFileForKotlinPluginMarkerMavenPublication", GenerateMavenPom::class.java) {
 		pom.name.set("Vite for Kotlin")
 		pom.description.set("Plugin marker for the Gradle plugin Vite for Kotlin")
 		pom.url.set("https://gitlab.com/opensavvy/kotlin-vite")
@@ -47,8 +47,29 @@ afterEvaluate {
 	}
 
 	publishing {
-		publications.named("vitePluginMarkerMaven", MavenPublication::class.java) {
+		publications.named("kotlinPluginMarkerMaven", MavenPublication::class.java) {
 			from(components["java"])
+
+			// The plugins fight to declare dependencies
+			// Since this is a Gradle plugin, we don't care about Maven users at all, so
+			// we just remove all dependency declarations
+			pom.withXml {
+				val data = this.asElement()
+
+				val dependencies = data.childNodes.asSequence()
+					.filter { it.nodeName == "dependencies" }
+					.toList()
+
+				for (dependency in dependencies) {
+					data.removeChild(dependency)
+				}
+			}
 		}
+	}
+}
+
+fun org.w3c.dom.NodeList.asSequence() = sequence<org.w3c.dom.Node> {
+	repeat(length) {
+		yield(item(it))
 	}
 }
