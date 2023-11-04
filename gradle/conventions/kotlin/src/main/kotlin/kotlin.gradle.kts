@@ -11,7 +11,7 @@ repositories {
 }
 
 kotlin {
-	jvmToolchain(17)
+	jvmToolchain(8)
 }
 
 tasks.withType<Test>().configureEach {
