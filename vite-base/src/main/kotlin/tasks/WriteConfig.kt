@@ -65,7 +65,7 @@ abstract class WriteConfig : DefaultTask() {
 
 			/** @type {import('vite').UserConfig} */
 			export default {
-				root: '${config.root.get().asFile.relativeTo(configurationFile.get().asFile.parentFile)}',
+				root: '${config.root.get().asFile.relativeTo(configurationFile.get().asFile.parentFile).invariantSeparatorsPath}',
 				base: '${config.base.get()}',
 				plugins: [
 					${
@@ -75,7 +75,7 @@ abstract class WriteConfig : DefaultTask() {
 				],
 				build: {
 					target: '${config.build.target.get()}',
-					outDir: '${config.build.outDir.get()}',
+					outDir: '${config.build.outDir.get().asFile.invariantSeparatorsPath}',
 				},
 			}
 
