@@ -14,6 +14,17 @@ import javax.inject.Inject
 
 /**
  * Executes a Vite command in the context of this project.
+ *
+ * For example, to run `vite build`:
+ * ```kotlin
+ * tasks.register("viteBuild", ViteExec::class) {
+ *     command.set("build")
+ *     workingDirectory.set(project.layout.buildDirectory.dir("foo").asFile.toString())
+ *
+ *     nodePath.set("…path to your Node installation…")
+ *     vitePath.set("…path to your Vite installation…")
+ * }
+ * ```
  */
 @Suppress("LeakingThis")
 @CacheableTask
