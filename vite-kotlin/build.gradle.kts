@@ -28,7 +28,7 @@ dependencies {
 library {
 	name.set("Vite for Kotlin")
 	description.set("Gradle plugin to use Vite instead of Webpack in Kotlin Multiplatform projects")
-	homeUrl.set("https://gitlab.com/opensavvy/kotlin-vite")
+	homeUrl.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
 }
 
 java {
@@ -39,10 +39,10 @@ afterEvaluate {
 	tasks.named("generatePomFileForKotlinPluginMarkerMavenPublication", GenerateMavenPom::class.java) {
 		pom.name.set("Vite for Kotlin")
 		pom.description.set("Plugin marker for the Gradle plugin Vite for Kotlin")
-		pom.url.set("https://gitlab.com/opensavvy/kotlin-vite")
+		pom.url.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
 
 		pom.scm {
-			url.set("https://gitlab.com/opensavvy/kotlin-vite")
+			url.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
 		}
 	}
 
