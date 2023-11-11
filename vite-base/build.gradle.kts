@@ -25,6 +25,10 @@ library {
 	homeUrl.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
 }
 
+kotlin {
+	jvmToolchain(11)
+}
+
 java {
 	withSourcesJar()
 }
