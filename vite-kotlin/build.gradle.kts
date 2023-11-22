@@ -1,6 +1,6 @@
 plugins {
-	id("conventions.base")
-	id("conventions.library")
+	alias(opensavvyConventions.plugins.plugin)
+	alias(opensavvyConventions.plugins.kotlin.abstractLibrary)
 
 	`kotlin-dsl`
 	`java-gradle-plugin`
@@ -20,7 +20,7 @@ gradlePlugin {
 }
 
 dependencies {
-	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${playgroundLibs.versions.kotlin.get()}")
+	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${opensavvyConventions.versions.kotlin.get()}")
 
 	api(projects.viteBase)
 }
@@ -29,6 +29,11 @@ library {
 	name.set("Vite for Kotlin")
 	description.set("Gradle plugin to use Vite instead of Webpack in Kotlin Multiplatform projects")
 	homeUrl.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
+
+	license.set {
+		name.set("Apache 2.0")
+		url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+	}
 }
 
 kotlin {

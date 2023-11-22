@@ -1,5 +1,4 @@
 # List of dependencies of the project
-# Dependencies shared between all projects based on the Playground are declared in playground.versions.toml
 
 [versions]
 
