@@ -1,6 +1,6 @@
 plugins {
-	id("conventions.base")
-	id("conventions.library")
+	alias(opensavvyConventions.plugins.plugin)
+	alias(opensavvyConventions.plugins.kotlin.abstractLibrary)
 
 	`kotlin-dsl`
 	`java-gradle-plugin`
@@ -23,6 +23,11 @@ library {
 	name.set("Vite for Gradle")
 	description.set("Gradle plugin to use Vite")
 	homeUrl.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
+
+	license.set {
+		name.set("Apache 2.0")
+		url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+	}
 }
 
 kotlin {
