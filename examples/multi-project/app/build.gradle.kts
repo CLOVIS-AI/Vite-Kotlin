@@ -21,9 +21,3 @@ kotlin {
 		}
 	}
 }
-
-vite {
-	resources {
-		from(project(":core"))
-	}
-}

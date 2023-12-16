@@ -38,7 +38,6 @@ interface ViteConfig {
 		plugins.convention(other.plugins)
 		build.target.convention(other.build.target)
 		build.outDir.convention(other.build.outDir)
-		resources.projects.convention(other.resources.projects)
 	}
 
 	/**
@@ -165,22 +164,6 @@ interface ViteConfig {
 	@get:Nested
 	val build: ViteBuildConfig
 
-	/**
-	 * Declare where transitive resources should be imported from.
-	 *
-	 * ### Example
-	 *
-	 * ```kotlin
-	 * vite {
-	 *     resources {
-	 *         // …
-	 *     }
-	 * }
-	 * ```
-	 */
-	@get:Nested
-	val resources: ViteResourceConfig
 
 	fun build(block: ViteBuildConfig.() -> Unit) = build.apply(block)
-	fun resources(block: ViteResourceConfig.() -> Unit) = resources.apply(block)
 }

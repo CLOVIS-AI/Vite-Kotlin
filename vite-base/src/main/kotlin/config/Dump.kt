@@ -14,8 +14,4 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 	section("Build") {
 		value("Target", config.build.target)
 	}
-
-	section("Transitive resource dependencies") {
-		value("Projects", config.resources.projects)
-	}
 }
