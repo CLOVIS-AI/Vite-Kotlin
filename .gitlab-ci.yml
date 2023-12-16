@@ -14,19 +14,19 @@ variables:
   # https://gitlab.com/opensavvy/automation/containers
   ci_containers: 0.2.0
 
+  # Kotlin Multiplatform
+  kotlin_jvm: "yes"
+  kotlin_js_browser: "no"
+  kotlin_js_node: "no"
+  kotlin_native_linuxX64: "no"
+  kotlin_native_iosArm64: "no"
+
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_PIPELINE_SOURCE == 'schedule'
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_TAG
-
-variables:
-  kotlin_jvm: "yes"
-  kotlin_js_browser: "yes"
-  kotlin_js_node: "yes"
-  kotlin_native_linuxX64: "yes"
-  kotlin_native_iosArm64: "yes"
 
 # region Kotlin Multiplatform
 
@@ -145,6 +145,95 @@ check[iosArm64]:
       -PappVersion=$project_version
 
   interruptible: true
+
+# endregion
+# region Examples
+
+.example:
+  stage: test
+  extends: [ .os.gradle ]
+  needs: [ ]
+
+  script:
+    - >
+      ./gradlew
+      -p examples/$example
+      --include-build ../..
+      --configure-on-demand
+      --configuration-cache
+      tasks dumpViteConfiguration build
+
+  interruptible: true
+
+example:simple:
+  extends: [ .example ]
+  variables:
+    example: simple
+
+  after_script:
+    - mv examples/simple/build/vite/dist kotlin-example
+    - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
+    - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/kotlin-example/index.html" >>deploy.env
+    - echo "# TYPE production_size gauge" >>metrics.txt
+    - >
+      for file in $(find kotlin-example);
+      do
+        result=$(du -sbh $file | tr -s ' ');
+        size=$(<<<"$result" cut -f 1);
+        name=$(<<<"$result" sed 's/\.\///;s/-[[:alnum:]]\+\./\./' | cut -f 2);
+        echo "production_size{path=$name} $size" >>metrics.txt;
+      done
+
+  artifacts:
+    paths:
+      - kotlin-example
+    expose_as: Simple example
+    reports:
+      metrics: metrics.txt
+      dotenv: deploy.env
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG/example-simple
+    url: $URL
+    deployment_tier: development
+  interruptible: true
+
+example:multi-project:
+  extends: [ .example ]
+  variables:
+    example: multi-project
+
+  after_script:
+    - mv examples/multi-project/build/vite/dist kotlin-multi-example
+    - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
+    - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/kotlin-multi-example/index.html" >>deploy.env
+
+  artifacts:
+    paths:
+      - kotlin-multi-example
+    expose_as: Multi-project example
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG/example-multi-project
+    url: $URL
+    deployment_tier: development
+
+example:tailwind:
+  extends: [ .example ]
+  variables:
+    example: tailwind
+
+  after_script:
+    - mv examples/tailwind/build/vite/dist kotlin-tailwind
+    - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
+    - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/kotlin-tailwind/index.html" >>deploy.env
+
+  artifacts:
+    paths:
+      - kotlin-tailwind
+    expose_as: Tailwind example
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG/example-tailwind
+    url: $URL
+    deployment_tier: development
 
 # endregion
 # region Publishing
