@@ -226,6 +226,8 @@ example:tailwind:
     - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
     - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/kotlin-tailwind/index.html" >>deploy.env
 
+  allow_failure: true # TODO: remove after https://gitlab.com/opensavvy/automation/kotlin-vite/-/issues/37
+
   artifacts:
     paths:
       - kotlin-tailwind
