@@ -35,7 +35,6 @@ class KotlinVitePlugin : Plugin<Project> {
 		createDumpTask(target, config)
 		createCopyTask(target, "viteCompileKotlinDev", "jsDevelopmentExecutableCompileSync", target.viteBuildDevDir)
 		createCopyTask(target, "viteCompileKotlinProd", "jsProductionExecutableCompileSync", target.viteBuildProdDir)
-		copyLocalResources(target, config)
 		createConfigWriterTasks(target)
 		createExecTasks(target)
 	}
