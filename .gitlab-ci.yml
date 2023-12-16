@@ -35,38 +35,18 @@ workflow:
   image: registry.gitlab.com/opensavvy/automation/containers/java:latest
   needs: [ os.version ]
 
-  rules:
-    - if: $kotlin_jvm == "yes"
-      when: always
-    - when: never
-
 .kotlin-js-browser:
   extends: [ .os.gradle ]
   image: registry.gitlab.com/opensavvy/automation/containers/chromium:latest
   needs: [ os.version ]
-
-  rules:
-    - if: $kotlin_js_browser == "yes"
-      when: always
-    - when: never
 
 .kotlin-js-node:
   extends: [ .os.gradle ]
   image: registry.gitlab.com/opensavvy/automation/containers/chromium:latest
   needs: [ os.version ]
 
-  rules:
-    - if: $kotlin_js_node == "yes"
-      when: always
-    - when: never
-
 .kotlin-native-linuxX64:
   extends: [ .kotlin-jvm ] # it already runs on Linux
-
-  rules:
-    - if: $kotlin_native_linuxX64 == "yes"
-      when: always
-    - when: never
 
 .kotlin-native-iosArm64:
   extends: [ .os.gradle ]
@@ -77,11 +57,6 @@ workflow:
     - xcodebuild -downloadPlatform iOS
   tags:
     - saas-macos-medium-m1
-
-  rules:
-    - if: $kotlin_native_iosArm64 == "yes"
-      when: always
-    - when: never
 
 # endregion
 # region Check
@@ -241,7 +216,7 @@ example:tailwind:
 # region Publishing
 
 publish-maven:gitlab:
-  extends: [ .os.gradle ]
+  extends: [ .kotlin-jvm ]
   needs: [ os.version ]
   stage: deploy
 
@@ -258,8 +233,28 @@ publish-maven:gitlab:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_TAG
 
+publish-maven:gitlab[ios]:
+  extends: [ .kotlin-native-iosArm64 ]
+  stage: deploy
+
+  script:
+    - >
+      ./gradlew
+      publishIosArm64PublicationToGitLabRepository
+      publishIosSimulatorArm64PublicationToGitLabRepository
+      publishIosX64PublicationToGitLabRepository
+      --no-configuration-cache
+      -PappVersion=$project_version
+      
+  interruptible: false
+  rules:
+    - if: $PUBLISH_MAVEN == "no" || $PUBLISH_MAVEN_GITLAB == "no" || $PUBLISH_MAVEN_IOS == "no"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+
 publish-maven:central:initialize:
-  extends: [ .os.gradle ]
+  extends: [ .kotlin-jvm ]
   needs: [ os.version ]
   stage: deploy
 
@@ -278,7 +273,7 @@ publish-maven:central:initialize:
     - if: $CI_COMMIT_TAG
 
 publish-maven:central:
-  extends: [ .os.gradle ]
+  extends: [ .kotlin-jvm ]
   needs: [ os.version, publish-maven:central:initialize ]
   stage: deploy
 
@@ -299,8 +294,30 @@ publish-maven:central:
       when: never
     - if: $CI_COMMIT_TAG
 
+publish-maven:central[ios]:
+  extends: [ .kotlin-native-iosArm64 ]
+  needs: [ os.version, publish-maven:central:initialize ]
+  stage: deploy
+
+  script:
+    - export SIGNING_KEY_RING=$(mktemp)
+    - <"$SIGNING_KEY_RING_B64" base64 -d >"$SIGNING_KEY_RING"
+    - >
+      ./gradlew findSonatypeStagingRepository publishToSonatype
+      -x initializeSonatypeStagingRepository
+      --no-configuration-cache
+      -PappVersion=$project_version
+
+  interruptible: false
+  rules:
+    - if: $OSSRH_USERNAME == null || $OSSRH_PASSWORD == null
+      when: never
+    - if: $PUBLISH_MAVEN == "no" || $PUBLISH_MAVEN_CENTRAL == "no" || $PUBLISH_MAVEN_IOS == "no"
+      when: never
+    - if: $CI_COMMIT_TAG
+
 publish-maven:central:release:
-  extends: [ .os.gradle ]
+  extends: [ .kotlin-jvm ]
   needs: [ os.version, publish-maven:central ]
   stage: deploy
 
