@@ -1,4 +1,5 @@
 plugins {
+	alias(opensavvyConventions.plugins.base)
 	alias(opensavvyConventions.plugins.plugin)
 	alias(opensavvyConventions.plugins.kotlin.abstractLibrary)
 
