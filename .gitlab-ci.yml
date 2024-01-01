@@ -12,7 +12,7 @@ include:
 
 variables:
   # https://gitlab.com/opensavvy/automation/containers
-  ci_containers: 0.2.0
+  ci_containers: 0.3.0
 
   # Kotlin Multiplatform
   kotlin_jvm: "yes"
@@ -32,21 +32,22 @@ workflow:
 
 .kotlin-jvm:
   extends: [ .os.gradle ]
-  image: registry.gitlab.com/opensavvy/automation/containers/java:latest
+  image: registry.gitlab.com/opensavvy/automation/containers/java:$ci_containers
   needs: [ os.version ]
 
 .kotlin-js-browser:
   extends: [ .os.gradle ]
-  image: registry.gitlab.com/opensavvy/automation/containers/chromium:latest
+  image: registry.gitlab.com/opensavvy/automation/containers/chromium:$ci_containers
   needs: [ os.version ]
 
 .kotlin-js-node:
   extends: [ .os.gradle ]
-  image: registry.gitlab.com/opensavvy/automation/containers/chromium:latest
+  image: registry.gitlab.com/opensavvy/automation/containers/chromium:$ci_containers
   needs: [ os.version ]
 
 .kotlin-native-linuxX64:
-  extends: [ .kotlin-jvm ] # it already runs on Linux
+  image: registry.gitlab.com/opensavvy/automation/containers/java:$ci_containers
+  needs: [ os.version ]
 
 .kotlin-native-iosArm64:
   extends: [ .os.gradle ]
@@ -217,7 +218,8 @@ example:tailwind:
 
 publish-maven:gitlab:
   extends: [ .kotlin-jvm ]
-  needs: [ os.version ]
+  needs:
+    - os.version
   stage: deploy
 
   script:
@@ -235,6 +237,8 @@ publish-maven:gitlab:
 
 publish-maven:gitlab[ios]:
   extends: [ .kotlin-native-iosArm64 ]
+  needs:
+    - os.version
   stage: deploy
 
   script:
@@ -255,7 +259,8 @@ publish-maven:gitlab[ios]:
 
 publish-maven:central:initialize:
   extends: [ .kotlin-jvm ]
-  needs: [ os.version ]
+  needs:
+    - os.version
   stage: deploy
 
   script:
@@ -274,7 +279,9 @@ publish-maven:central:initialize:
 
 publish-maven:central:
   extends: [ .kotlin-jvm ]
-  needs: [ os.version, publish-maven:central:initialize ]
+  needs:
+    - os.version
+    - publish-maven:central:initialize
   stage: deploy
 
   script:
@@ -296,7 +303,9 @@ publish-maven:central:
 
 publish-maven:central[ios]:
   extends: [ .kotlin-native-iosArm64 ]
-  needs: [ os.version, publish-maven:central:initialize ]
+  needs:
+    - os.version
+    - publish-maven:central:initialize
   stage: deploy
 
   script:
@@ -318,7 +327,10 @@ publish-maven:central[ios]:
 
 publish-maven:central:release:
   extends: [ .kotlin-jvm ]
-  needs: [ os.version, publish-maven:central ]
+  needs:
+    - os.version
+    - publish-maven:central
+    - publish-maven:central[ios]
   stage: deploy
 
   script:
