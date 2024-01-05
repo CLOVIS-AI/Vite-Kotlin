@@ -328,9 +328,10 @@ publish-maven:central[ios]:
 publish-maven:central:release:
   extends: [ .kotlin-jvm ]
   needs:
-    - os.version
-    - publish-maven:central
-    - publish-maven:central[ios]
+    - job: os.version
+    - job: publish-maven:central
+    - job: publish-maven:central[ios]
+      optional: true
   stage: deploy
 
   script:

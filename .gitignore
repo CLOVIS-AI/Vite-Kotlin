@@ -3,3 +3,6 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore the JS lockfiles
+kotlin-js-store/
