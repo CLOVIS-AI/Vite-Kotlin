@@ -1,15 +1,16 @@
-# Playground: Gradle
+# Vite for Gradle
 
-<!-- When using the Playground to bootstrap a project, replace this by your project description. -->
-This a template to easily bootstrap your projects.
+Gradle plugin to create [Kotlin/JS](https://kotlinlang.org/docs/js-overview.html) projects using [Vite](https://vitejs.dev/).
 
-> This project is part of the OpenSavvy Playground.
-> To learn more, visit [this page](docs/playground/README.md).
+## Usage
+
+This repository exposes multiple Gradle plugins:
+- `dev.opensavvy.vite.base`: gives full control over the configuration and the installation process • [Learn more](https://opensavvy.gitlab.io/automation/kotlin-vite/api-docs/vite-base/index.html)
+- `dev.opensavvy.vite.kotlin`: preconfigured plugin to work out-of-the-box with Kotlin Multiplatform projects • [Learn more](https://opensavvy.gitlab.io/automation/kotlin-vite/api-docs/vite-kotlin/index.html)
 
 ## License
 
-<!-- Mentions under which license you are publishing the project. -->
-<!-- Add the full text to the LICENSE file. -->
+This project is licensed under the [Apache 2.0 license](LICENSE).
 
 ## Contributing
 
