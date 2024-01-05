@@ -127,7 +127,7 @@ check[iosArm64]:
 
 .example:
   stage: test
-  extends: [ .os.gradle ]
+  extends: [ .kotlin-js-node ]
   needs: [ ]
 
   script:
