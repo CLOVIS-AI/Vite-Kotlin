@@ -8,7 +8,7 @@ import org.gradle.kotlin.dsl.getByType
 class BaseVitePlugin : Plugin<Project> {
 
 	override fun apply(target: Project) {
-		val config = target.extensions.create("vite", ViteConfig::class.java)
+		target.extensions.create("vite", ViteConfig::class.java)
 	}
 }
 
