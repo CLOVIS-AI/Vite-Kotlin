@@ -41,10 +41,6 @@ kotlin {
 	jvmToolchain(11)
 }
 
-java {
-	withSourcesJar()
-}
-
 afterEvaluate {
 	tasks.named("generatePomFileForKotlinPluginMarkerMavenPublication", GenerateMavenPom::class.java) {
 		pom.name.set("Vite for Kotlin")
@@ -58,8 +54,6 @@ afterEvaluate {
 
 	publishing {
 		publications.named("kotlinPluginMarkerMaven", MavenPublication::class.java) {
-			from(components["java"])
-
 			// The plugins fight to declare dependencies
 			// Since this is a Gradle plugin, we don't care about Maven users at all, so
 			// we just remove all dependency declarations

@@ -35,10 +35,6 @@ kotlin {
 	jvmToolchain(11)
 }
 
-java {
-	withSourcesJar()
-}
-
 afterEvaluate {
 	tasks.named("generatePomFileForBasePluginMarkerMavenPublication", GenerateMavenPom::class.java) {
 		pom.name.set("Vite for Gradle")
@@ -47,12 +43,6 @@ afterEvaluate {
 
 		pom.scm {
 			url.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
-		}
-	}
-
-	publishing {
-		publications.named("basePluginMarkerMaven", MavenPublication::class.java) {
-			from(components["java"])
 		}
 	}
 }
