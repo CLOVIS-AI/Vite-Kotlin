@@ -27,7 +27,7 @@ interface ViteConfig {
 	 */
 	fun setDefaults() {
 		// Root
-		version.convention("4.4.9")
+		version.convention("5.0.11")
 		base.convention("./")
 	}
 
