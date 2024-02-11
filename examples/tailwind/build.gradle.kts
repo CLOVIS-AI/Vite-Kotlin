@@ -18,9 +18,9 @@ kotlin {
 	sourceSets {
 		val jsMain by getting {
 			dependencies {
-				implementation(devNpm("tailwindcss", "3.4.0"))
-				implementation(devNpm("postcss", "8.4.33"))
-				implementation(devNpm("autoprefixer", "10.4.16"))
+				implementation(devNpm("tailwindcss", "3.4.1"))
+				implementation(devNpm("postcss", "8.4.35"))
+				implementation(devNpm("autoprefixer", "10.4.17"))
 			}
 		}
 	}
