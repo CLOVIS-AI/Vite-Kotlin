@@ -51,29 +51,4 @@ afterEvaluate {
 			url.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
 		}
 	}
-
-	publishing {
-		publications.named("kotlinPluginMarkerMaven", MavenPublication::class.java) {
-			// The plugins fight to declare dependencies
-			// Since this is a Gradle plugin, we don't care about Maven users at all, so
-			// we just remove all dependency declarations
-			pom.withXml {
-				val data = this.asElement()
-
-				val dependencies = data.childNodes.asSequence()
-					.filter { it.nodeName == "dependencies" }
-					.toList()
-
-				for (dependency in dependencies) {
-					data.removeChild(dependency)
-				}
-			}
-		}
-	}
-}
-
-fun org.w3c.dom.NodeList.asSequence() = sequence<org.w3c.dom.Node> {
-	repeat(length) {
-		yield(item(it))
-	}
 }
