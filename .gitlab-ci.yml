@@ -10,9 +10,11 @@ include:
   - remote: https://gitlab.com/opensavvy/ci-templates/-/raw/main/gradle.gitlab-ci.yml
   - remote: https://gitlab.com/opensavvy/ci-templates/-/raw/main/docker.gitlab-ci.yml
 
+  - local: docs/website/.gitlab-ci.yml
+
 variables:
   # https://gitlab.com/opensavvy/automation/containers
-  ci_containers: 0.4.0
+  ci_containers: 0.4.1
 
   # Kotlin Multiplatform
   kotlin_jvm: "yes"
@@ -76,6 +78,7 @@ check[jvm]:
       -x jsNodeTest
       -x linuxX64Test
       -x iosSimulatorArm64Test
+      koverVerify --rerun
       -PappVersion=$project_version
 
   after_script:
@@ -260,7 +263,7 @@ publish-maven:gitlab[ios]:
       publishIosX64PublicationToGitLabRepository
       --no-configuration-cache
       -PappVersion=$project_version
-      
+
   interruptible: false
   rules:
     - if: $PUBLISH_MAVEN == "no" || $PUBLISH_MAVEN_GITLAB == "no" || $PUBLISH_MAVEN_IOS == "no"
@@ -421,11 +424,14 @@ pages:
   image: alpine:latest
   stage: deploy
   needs:
+    - job: mkdocs
+      artifacts: true
     - job: dokka
       artifacts: true
 
   script:
     - mkdir -p public
+    - mv docs-website public/docs
     - mv api-docs public
 
   artifacts:
