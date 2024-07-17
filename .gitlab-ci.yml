@@ -14,7 +14,7 @@ include:
 
 variables:
   # https://gitlab.com/opensavvy/automation/containers
-  ci_containers: 0.4.1
+  ci_containers: 0.4.4
 
   # Kotlin Multiplatform
   kotlin_jvm: "yes"
@@ -76,6 +76,9 @@ check[jvm]:
       :koverHtmlReport
       -x jsBrowserTest
       -x jsNodeTest
+      -x wasmJsBrowserTest
+      -x wasmJsNodeTest
+      -x wasmWasiNodeTest
       -x linuxX64Test
       -x iosSimulatorArm64Test
       koverVerify --rerun
@@ -98,7 +101,7 @@ check[jsBrowser]:
 
   script:
     - >
-      ./gradlew jsBrowserTest
+      ./gradlew jsBrowserTest wasmJsBrowserTest
       -PappVersion=$project_version
 
   interruptible: true
@@ -109,7 +112,7 @@ check[nodeJs]:
 
   script:
     - >
-      ./gradlew jsNodeTest
+      ./gradlew jsNodeTest wasmJsNodeTest wasmWasiNodeTest
       -PappVersion=$project_version
 
   interruptible: true
