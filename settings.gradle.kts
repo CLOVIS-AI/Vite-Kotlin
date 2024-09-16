@@ -10,6 +10,7 @@
 rootProject.name = "ViteKT"
 
 dependencyResolutionManagement {
+	@Suppress("UnstableApiUsage")
 	repositories {
 		mavenCentral()
 	}
@@ -29,6 +30,7 @@ pluginManagement {
 			}
 
 			content {
+				@Suppress("UnstableApiUsage")
 				includeGroupAndSubgroups("dev.opensavvy")
 			}
 		}
