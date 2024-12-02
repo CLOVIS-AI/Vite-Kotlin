@@ -14,7 +14,7 @@ include:
 
 variables:
   # https://gitlab.com/opensavvy/automation/containers
-  ci_containers: 0.5.0
+  ci_containers: 0.6.0
 
   # Kotlin Multiplatform
   kotlin_jvm: "yes"
@@ -326,6 +326,7 @@ publish-maven:central[ios]:
   needs:
     - os.version
     - publish-maven:central:initialize
+    - publish-maven:central
   stage: deploy
 
   script:
@@ -417,6 +418,7 @@ qodana[jvm]:
     - if: $QODANA_TOKEN == null
       when: never
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      allow_failure: true
     - if: $CI_COMMIT_TAG
       allow_failure: true
     - when: manual
