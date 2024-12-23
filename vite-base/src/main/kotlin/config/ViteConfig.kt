@@ -37,6 +37,7 @@ interface ViteConfig {
 		base.convention(other.base)
 		plugins.convention(other.plugins)
 		build.target.convention(other.build.target)
+		build.modulePreload.convention(other.build.modulePreload)
 		build.outDir.convention(other.build.outDir)
 	}
 

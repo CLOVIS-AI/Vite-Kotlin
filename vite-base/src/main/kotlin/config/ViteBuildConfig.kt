@@ -40,6 +40,28 @@ interface ViteBuildConfig {
 	val target: Property<String>
 
 	/**
+	 * Whether to automatically inject a module preload polyfill.
+	 *
+	 * Currently, does not support the `resolveDependencies` function.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     build {
+	 *         modulePreload.set(false)
+	 *     }
+	 * }
+	 * ```
+	 *
+	 * ### External resources
+	 *
+	 * - [Official documentation](https://vitejs.dev/config/build-options.html#build-modulepreload)
+	 */
+	@get:Internal
+	val modulePreload: Property<Boolean>
+
+	/**
 	 * Output directory of the production build.
 	 *
 	 * ### Example
