@@ -10,4 +10,5 @@ internal fun ViteConfig.defaultConfiguration() {
 
 	// Build
 	build.target.convention("modules")
+	build.modulePreload.convention(true)
 }

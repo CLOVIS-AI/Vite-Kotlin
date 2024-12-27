@@ -13,5 +13,6 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 
 	section("Build") {
 		value("Target", config.build.target)
+		value("ModulePreload", config.build.modulePreload)
 	}
 }
