@@ -1,6 +1,6 @@
 plugins {
 	base
-	kotlin("multiplatform") version "1.9.10" apply false
+	kotlin("multiplatform") version "2.1.20" apply false
 }
 
 repositories {

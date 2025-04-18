@@ -1,5 +1,5 @@
 plugins {
-	kotlin("multiplatform") version "1.9.10"
+	kotlin("multiplatform")
 
 	// List of releases: https://gitlab.com/opensavvy/kotlin-vite/-/releases
 	id("dev.opensavvy.vite.kotlin") // version "REPLACE THIS"

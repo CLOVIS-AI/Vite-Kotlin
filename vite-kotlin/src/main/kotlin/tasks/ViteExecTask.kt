@@ -6,27 +6,28 @@ import opensavvy.gradle.vite.kotlin.viteBuildDevDir
 import opensavvy.gradle.vite.kotlin.viteBuildDistDir
 import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.Project
-import org.gradle.api.file.RegularFile
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin.Companion.kotlinNodeJsExtension
-import org.jetbrains.kotlin.gradle.targets.js.npm.NpmProject
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import java.io.File
 
 private fun ViteExec.execConventions() {
 	dependsOn(":kotlinNpmInstall")
 	group = KotlinVitePlugin.GROUP
 
-	val kotlinEnvironment = project.rootProject.kotlinNodeJsExtension
-	nodePath.set(
-		kotlinEnvironment
-			.requireConfigured()
-			.let { RegularFile { File(it.nodeExecutable) } }
-	)
+	fun File.child(name: String) = File(this, name)
 
-	vitePath.set(
-		kotlinEnvironment
-			.projectPackagesDir.parentFile.resolve(NpmProject.NODE_MODULES)
-			.let { RegularFile { File("$it/vite/bin/vite.js") } }
-	)
+	nodePath.set {
+		File(NodeJsPlugin.apply(project).executable.get())
+	}
+
+	vitePath.set {
+		NodeJsRootPlugin.apply(project.rootProject)
+			.projectPackagesDirectory.get()
+			.asFile.parentFile
+			.child("node_modules")
+			.child(".bin")
+			.child("vite")
+	}
 }
 
 internal fun createExecTasks(project: Project) {
