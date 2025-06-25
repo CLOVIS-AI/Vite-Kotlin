@@ -40,7 +40,7 @@ abstract class KotlinViteExec @Inject constructor(
 		get() = setOf(NpmPackageVersion("vite", config.version.get()))
 
 	init {
-		dependsOn(":kotlinNpmInstall", "kotlinNodeJsSetup", "jsPackageJson")
+		dependsOn("kotlinNodeJsSetup", "jsPackageJson", ":kotlinNpmInstall")
 		group = KotlinVitePlugin.GROUP
 
 		nodePath.set {
