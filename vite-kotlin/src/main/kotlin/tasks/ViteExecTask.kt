@@ -17,7 +17,6 @@ import org.jetbrains.kotlin.gradle.targets.js.RequiredKotlinJsDependency
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrCompilation
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin
 import org.jetbrains.kotlin.gradle.targets.js.npm.RequiresNpmDependencies
-import org.jetbrains.kotlin.gradle.targets.js.npm.npmProject
 import java.io.File
 import javax.inject.Inject
 
@@ -47,9 +46,13 @@ abstract class KotlinViteExec @Inject constructor(
 			File(NodeJsPlugin.apply(project.rootProject).executable.get())
 		}
 
-		vitePath.set {
-			File(compilation.npmProject.require("vite"))
-		}
+		// In theory, we should be able to access the Vite path via:
+		//     File(compilation.npmProject.require("vite"))
+		// However, the configuration cache will initialize all inputs eagerly, and the above line
+		// throws if executed before the :kotlinNpmInstall task. Using the line above thus
+		// results in a build that crashes after a clean build, but works if a :kotlinNpmInstall is executed
+		// by itself first.
+		vitePath.set(project.rootProject.layout.buildDirectory.file("js/node_modules/vite/bin/vite.js"))
 	}
 }
 
