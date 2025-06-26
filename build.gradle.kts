@@ -21,8 +21,8 @@ plugins {
 
 dependencies {
 	// List the 'library' projects
-	dokkatoo(projects.viteKotlin)
-	dokkatoo(projects.viteBase)
+	dokka(projects.viteKotlin)
+	dokka(projects.viteBase)
 }
 
 // region Check the users of the project didn't forget to rename the group

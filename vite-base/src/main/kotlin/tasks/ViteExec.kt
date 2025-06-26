@@ -51,8 +51,8 @@ abstract class ViteExec @Inject constructor(
 	 * Use this property to override which Node installation is used.
 	 * By default, the Node installation used by the Kotlin plugin is used.
 	 */
-	@get:InputFile
-	@get:PathSensitive(PathSensitivity.RELATIVE)
+	@get:Internal // WORKAROUND for https://youtrack.jetbrains.com/issue/KT-78612
+	// Once it's fixed, revert the commit that added this comment
 	abstract val nodePath: RegularFileProperty
 
 	/**
