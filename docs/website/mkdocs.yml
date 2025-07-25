@@ -1,7 +1,7 @@
-site_name: OpenSavvy Playground
+site_name: Vite for Kotlin
 site_author: OpenSavvy and contributors
 site_description: >
-  Project template with CI/CD and IDE configuration.
+  Use ViteJS in your Gradle and Kotlin projects
 
 theme:
   name: material
@@ -101,12 +101,6 @@ use_directory_urls: false
 
 nav:
   - Home: index.md
-
-  - Getting started: []
-
-  - Module1: []
-
-  - Module2: []
 
 # !!! EMBEDDED DOKKA START, DO NOT COMMIT !!! #
 # !!! EMBEDDED DOKKA END, DO NOT COMMIT !!! #
