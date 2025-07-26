@@ -5,5 +5,6 @@ plugins {
 
 dependencies {
 	// List the 'library' projects
-	// dokka(projects.core)
+	dokka(projects.viteBase)
+	dokka(projects.viteKotlin)
 }
