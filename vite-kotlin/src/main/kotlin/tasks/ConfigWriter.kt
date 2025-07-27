@@ -20,6 +20,7 @@ internal fun createConfigWriterTasks(project: Project) {
 
 		config {
 			root.set(project.viteBuildDevDir)
+			publicDir.convention("../../../../..")
 
 			build {
 				outDir.set(project.viteBuildDistDir)

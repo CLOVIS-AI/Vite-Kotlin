@@ -36,6 +36,7 @@ interface ViteConfig {
 		root.convention(other.root)
 		base.convention(other.base)
 		plugins.convention(other.plugins)
+		publicDir.convention(other.publicDir)
 		build.target.convention(other.build.target)
 		build.modulePreload.convention(other.build.modulePreload)
 		build.outDir.convention(other.build.outDir)
@@ -148,6 +149,15 @@ interface ViteConfig {
 			)
 		)
 	}
+
+	/**
+	 * Directory to serve as plain static assets. Files in this directory are served at `/` during dev
+	 * and copied to the root `outDir` during build, and are always served or copied as-is without transform.
+	 *
+	 * The value can be either an absolute file system path or a path relative to the project [root].
+	 */
+	@get:Internal
+	val publicDir: Property<String>
 
 	/**
 	 * Configuration for Rollup to build the production bundle.

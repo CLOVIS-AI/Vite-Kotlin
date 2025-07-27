@@ -9,6 +9,7 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 
 		value("Root", config.root)
 		value("Base", config.base)
+		value("Public dir", config.publicDir)
 	}
 
 	section("Build") {
