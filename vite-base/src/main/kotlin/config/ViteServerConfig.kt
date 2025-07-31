@@ -39,4 +39,27 @@ interface ViteServerConfig {
 	@get:Internal
 	val host: Property<String>
 
+	/**
+	 * Specify server port.
+	 *
+	 * Note if the port is already being used, Vite will automatically try the next available port
+	 * so this may not be the actual port the server ends up listening on.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     server {
+	 *         port = 5173
+	 *     }
+	 * }
+	 * ```
+	 *
+	 * ### External resources
+	 *
+	 * - [Official documentation](https://vite.dev/config/server-options.html#server-port)
+	 */
+	@get:Internal
+	val port: Property<Int>
+
 }

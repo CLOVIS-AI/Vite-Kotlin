@@ -30,6 +30,7 @@ interface ViteConfig {
 		version.convention("6.1.0")
 		base.convention("./")
 		server.host.convention("localhost")
+		server.port.convention(5173)
 	}
 
 	fun setDefaultsFrom(other: ViteConfig) {
@@ -42,6 +43,7 @@ interface ViteConfig {
 		build.modulePreload.convention(other.build.modulePreload)
 		build.outDir.convention(other.build.outDir)
 		server.host.convention(other.server.host)
+		server.port.convention(other.server.port)
 	}
 
 	/**

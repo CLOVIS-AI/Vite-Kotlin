@@ -76,6 +76,7 @@ internal fun createExecTasks(project: Project) {
 		configurationFile.set(project.viteBuildDevDir.map { it.file("vite.config.js") })
 
 		inputs.property("server.host", config.server.host)
+		inputs.property("server.port", config.server.port)
 	}
 
 	project.tasks.named("assemble") {

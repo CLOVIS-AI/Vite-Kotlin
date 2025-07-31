@@ -19,5 +19,6 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 
 	section("Server") {
 		value("Host", config.server.host)
+		value("Port", config.server.port)
 	}
 }
