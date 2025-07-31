@@ -46,10 +46,11 @@ class DumpDsl internal constructor() {
 			else -> toString()
 		}
 
-		fun value(title: String, value: Any) {
+		fun value(title: String, value: Any?) {
 			when (value) {
 				is Iterable<*> -> stored[title] = value.map { it.customToString() }.toList()
 				is ListProperty<*> -> value(title, value.getOrElse(emptyList()))
+				null -> value(title, emptyList<Any>())
 				else -> stored[title] = listOf(value.customToString())
 			}
 		}

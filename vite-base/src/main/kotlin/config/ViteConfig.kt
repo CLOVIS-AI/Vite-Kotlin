@@ -46,6 +46,7 @@ interface ViteConfig {
 		server.host.convention(other.server.host)
 		server.port.convention(other.server.port)
 		server.strictPort.convention(other.server.strictPort)
+		server.proxies.convention(other.server.proxies)
 	}
 
 	/**

@@ -49,6 +49,7 @@ abstract class WriteConfig : DefaultTask() {
 		inputs.property("server.host", config.server.host)
 		inputs.property("server.port", config.server.port)
 		inputs.property("server.strictPort", config.server.strictPort)
+		inputs.property("server.proxy", config.server.proxies)
 	}
 
 	fun config(block: ViteConfig.() -> Unit) = config.apply(block)
@@ -87,7 +88,13 @@ abstract class WriteConfig : DefaultTask() {
 				server: {
 					host: '${config.server.host.get()}',
 					port: ${config.server.port.get()},
-					strictPort: ${config.server.strictPort.get()}
+					strictPort: ${config.server.strictPort.get()},
+					proxy: {
+						${
+							config.server.proxies.get()
+								.joinToString(separator = ",\n\t\t\t") { "'${it.url}': {target: '${it.target}', changeOrigin: ${it.changeOrigin}, ws: ${it.ws}, rewrite: (path) => path.replace(/^\\${it.url}/, '${it.replacePrefixBy ?: it.url}')}" }
+						}
+					}
 				},
 			}
 
