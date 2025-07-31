@@ -62,4 +62,24 @@ interface ViteServerConfig {
 	@get:Internal
 	val port: Property<Int>
 
+	/**
+	 * Set to true to exit if port is already in use, instead of automatically trying the next available port.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     server {
+	 *         strictPort = false
+	 *     }
+	 * }
+	 * ```
+	 *
+	 * ### External resources
+	 *
+	 * - [Official documentation](https://vite.dev/config/server-options.html#server-strictport)
+	 */
+	@get:Internal
+	val strictPort: Property<Boolean>
+
 }

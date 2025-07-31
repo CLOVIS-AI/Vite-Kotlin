@@ -48,6 +48,7 @@ abstract class WriteConfig : DefaultTask() {
 		inputs.property("build.outDir", config.build.outDir.map { it.toString() })
 		inputs.property("server.host", config.server.host)
 		inputs.property("server.port", config.server.port)
+		inputs.property("server.strictPort", config.server.strictPort)
 	}
 
 	fun config(block: ViteConfig.() -> Unit) = config.apply(block)
@@ -85,7 +86,8 @@ abstract class WriteConfig : DefaultTask() {
 				},
 				server: {
 					host: '${config.server.host.get()}',
-					port: ${config.server.port.get()}
+					port: ${config.server.port.get()},
+					strictPort: ${config.server.strictPort.get()}
 				},
 			}
 

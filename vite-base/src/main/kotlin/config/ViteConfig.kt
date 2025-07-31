@@ -31,6 +31,7 @@ interface ViteConfig {
 		base.convention("./")
 		server.host.convention("localhost")
 		server.port.convention(5173)
+		server.strictPort.convention(false)
 	}
 
 	fun setDefaultsFrom(other: ViteConfig) {
@@ -44,6 +45,7 @@ interface ViteConfig {
 		build.outDir.convention(other.build.outDir)
 		server.host.convention(other.server.host)
 		server.port.convention(other.server.port)
+		server.strictPort.convention(other.server.strictPort)
 	}
 
 	/**

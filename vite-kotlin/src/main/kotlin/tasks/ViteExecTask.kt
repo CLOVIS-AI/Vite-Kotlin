@@ -77,6 +77,7 @@ internal fun createExecTasks(project: Project) {
 
 		inputs.property("server.host", config.server.host)
 		inputs.property("server.port", config.server.port)
+		inputs.property("server.strictPort", config.server.strictPort)
 	}
 
 	project.tasks.named("assemble") {
