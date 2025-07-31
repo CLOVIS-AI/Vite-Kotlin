@@ -46,6 +46,7 @@ abstract class WriteConfig : DefaultTask() {
 		inputs.property("build.target", config.build.target)
 		inputs.property("build.modulePreload", config.build.modulePreload)
 		inputs.property("build.outDir", config.build.outDir.map { it.toString() })
+		inputs.property("server.host", config.server.host)
 	}
 
 	fun config(block: ViteConfig.() -> Unit) = config.apply(block)
@@ -80,6 +81,9 @@ abstract class WriteConfig : DefaultTask() {
 					target: '${config.build.target.get()}',
 					modulePreload: ${config.build.modulePreload.get()},
 					outDir: '${config.build.outDir.get().asFile.invariantSeparatorsPath}',
+				},
+				server: {
+					host: '${config.server.host.get()}'
 				},
 			}
 

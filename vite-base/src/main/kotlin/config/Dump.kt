@@ -16,4 +16,8 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 		value("Target", config.build.target)
 		value("ModulePreload", config.build.modulePreload)
 	}
+
+	section("Server") {
+		value("Host", config.server.host)
+	}
 }
