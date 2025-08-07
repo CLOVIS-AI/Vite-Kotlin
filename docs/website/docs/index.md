@@ -15,7 +15,7 @@ Some of the projects we tested were up to 30% smaller with Rollup than with Webp
 
 Kotlin can be transpiled to JavaScript as part of Kotlin Multiplatform. We support Kotlin users seamlessly with almost no added configuration for working projects with a configured JS target.
 
-[Learn more about the configuration and usage](https://opensavvy.gitlab.io/automation/kotlin-vite/api-docs/vite-kotlin/index.html).
+[Learn more about the configuration and usage](https://vite-kotlin.opensavvy.dev/api-docs/vite-kotlin).
 
 ## For everyone else
 
@@ -24,7 +24,7 @@ The base plugin contains the logic for the configuration and the tasks, but they
 
 You can use this plugin to easily configure Vite in your own projects with your own logic or custom tooling.
 
-[Learn more about the configuration and usage](https://opensavvy.gitlab.io/automation/kotlin-vite/api-docs/vite-base/index.html).
+[Learn more about the configuration and usage](https://vite-kotlin.opensavvy.dev/api-docs/vite-base).
 
 ## Troubleshooting
 

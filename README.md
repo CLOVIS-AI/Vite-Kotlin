@@ -5,8 +5,8 @@ Gradle plugin to create [Kotlin/JS](https://kotlinlang.org/docs/js-overview.html
 ## Usage
 
 This repository exposes multiple Gradle plugins:
-- `dev.opensavvy.vite.base`: gives full control over the configuration and the installation process • [Learn more](https://opensavvy.gitlab.io/automation/kotlin-vite/api-docs/vite-base/index.html)
-- `dev.opensavvy.vite.kotlin`: preconfigured plugin to work out-of-the-box with Kotlin Multiplatform projects • [Learn more](https://opensavvy.gitlab.io/automation/kotlin-vite/api-docs/vite-kotlin/index.html)
+- `dev.opensavvy.vite.base`: gives full control over the configuration and the installation process • [Learn more](https://vite-kotlin.opensavvy.dev/api-docs/vite-base)
+- `dev.opensavvy.vite.kotlin`: preconfigured plugin to work out-of-the-box with Kotlin Multiplatform projects • [Learn more](https://vite-kotlin.opensavvy.dev/api-docs/vite-kotlin)
 
 ## License
 
