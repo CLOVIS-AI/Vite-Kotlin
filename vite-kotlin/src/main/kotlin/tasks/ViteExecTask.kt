@@ -74,6 +74,10 @@ internal fun createExecTasks(project: Project) {
 
 		config.root.set(project.viteBuildDevDir.map { it.dir("kotlin") })
 		configurationFile.set(project.viteBuildDevDir.map { it.file("vite.config.js") })
+
+		inputs.property("server.host", config.server.host)
+		inputs.property("server.port", config.server.port)
+		inputs.property("server.strictPort", config.server.strictPort)
 	}
 
 	project.tasks.named("assemble") {

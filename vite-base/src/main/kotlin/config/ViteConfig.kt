@@ -29,6 +29,9 @@ interface ViteConfig {
 		// Root
 		version.convention("6.1.0")
 		base.convention("./")
+		server.host.convention("localhost")
+		server.port.convention(5173)
+		server.strictPort.convention(false)
 	}
 
 	fun setDefaultsFrom(other: ViteConfig) {
@@ -40,6 +43,10 @@ interface ViteConfig {
 		build.target.convention(other.build.target)
 		build.modulePreload.convention(other.build.modulePreload)
 		build.outDir.convention(other.build.outDir)
+		server.host.convention(other.server.host)
+		server.port.convention(other.server.port)
+		server.strictPort.convention(other.server.strictPort)
+		server.proxies.convention(other.server.proxies)
 	}
 
 	/**
@@ -175,6 +182,23 @@ interface ViteConfig {
 	@get:Nested
 	val build: ViteBuildConfig
 
-
 	fun build(block: ViteBuildConfig.() -> Unit) = build.apply(block)
+
+	/**
+	 * Configuration for the development server.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     server {
+	 *         // …
+	 *     }
+	 * }
+	 * ```
+	 */
+	@get:Nested
+	val server: ViteServerConfig
+
+	fun server(block: ViteServerConfig.() -> Unit) = server.apply(block)
 }

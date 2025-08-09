@@ -15,3 +15,9 @@ kotlin {
 		binaries.executable()
 	}
 }
+
+vite {
+	server {
+		proxy("/api", "http://localhost:4567")
+	}
+}

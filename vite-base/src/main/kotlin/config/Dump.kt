@@ -16,4 +16,21 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 		value("Target", config.build.target)
 		value("ModulePreload", config.build.modulePreload)
 	}
+
+	section("Server") {
+		value("Host", config.server.host)
+		value("Port", config.server.port)
+		value("StrictPort", config.server.strictPort)
+
+		if (config.server.proxies.isPresent) {
+			for (proxy in config.server.proxies.get()) {
+				section("Proxy ${proxy.url}") {
+					value("Target", proxy.target)
+					value("Change origin", proxy.changeOrigin)
+					value("WebSocket", proxy.ws)
+					value("Replace prefix by", proxy.replacePrefixBy)
+				}
+			}
+		}
+	}
 }
