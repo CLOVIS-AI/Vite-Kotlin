@@ -102,6 +102,9 @@ use_directory_urls: false
 nav:
   - Home: index.md
 
+  - Getting started:
+      - guides/index.md
+
 # !!! EMBEDDED DOKKA START, DO NOT COMMIT !!! #
 # !!! EMBEDDED DOKKA END, DO NOT COMMIT !!! #
 

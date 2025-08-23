@@ -15,7 +15,7 @@ Some of the projects we tested were up to 30% smaller with Rollup than with Webp
 
 Kotlin can be transpiled to JavaScript as part of Kotlin Multiplatform. We support Kotlin users seamlessly with almost no added configuration for working projects with a configured JS target.
 
-[Learn more about the configuration and usage](https://vite-kotlin.opensavvy.dev/api-docs/vite-kotlin).
+[Learn more about the configuration and usage](guides/index.md).
 
 ## For everyone else
 
