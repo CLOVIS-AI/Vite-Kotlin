@@ -40,6 +40,29 @@ To learn more about why this is necessary, see the [official documentation](http
 
 To configure the plugin, see [the vite block][opensavvy.gradle.vite.base.config.ViteConfig].
 
+### ESM
+
+ESM is a more modern module system natively supported by Vite. Using it may make the build faster, especially during development.
+
+To use ESM, you must add `useEsModules()` in the `js {}` block:
+```kotlin
+// …
+
+kotlin {
+	js(IR) {
+		browser()
+		binaries.executable()
+		useEsModules()
+	}
+}
+```
+
+Additionally, you must edit your `index.html` file to use the extension `.mjs` instead of `.js`.
+For example:
+```html
+<script src="app.mjs" type="module">
+```
+
 ## Tasks
 
 The Vite plugin adds multiple tasks to the module it is applied to.
