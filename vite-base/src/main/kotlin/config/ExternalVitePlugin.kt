@@ -108,7 +108,7 @@ data class ExternalVitePlugin(
 	/**
 	 * Any additional configuration provided to the plugin.
 	 */
-	@Language("JavaScript")
+	@param:Language("JavaScript", prefix = "const a = ")
 	val configuration: String? = null,
 
 	/**
