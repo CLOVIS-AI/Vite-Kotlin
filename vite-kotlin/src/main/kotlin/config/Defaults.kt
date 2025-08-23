@@ -5,8 +5,8 @@ import opensavvy.gradle.vite.base.config.ViteConfig
 internal fun ViteConfig.defaultConfiguration() {
 	setDefaults()
 
-	plugin("@originjs/vite-plugin-commonjs", "viteCommonjs", "1.0.3", isNamedExport = true)
-	plugin("@rollup/plugin-commonjs", "commonjs", "28.0.2")
+	plugin("vite-plugin-commonjs", "viteCommonjs", "0.10.4")
+	plugin("@rollup/plugin-commonjs", "commonjs", "28.0.6")
 
 	// Build
 	build.target.convention("modules")
