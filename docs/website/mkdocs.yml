@@ -105,6 +105,7 @@ nav:
   - Getting started:
       - guides/index.md
       - Using ES modules: guides/esm.md
+      - Using ES2015: guides/es2015.md
 
 # !!! EMBEDDED DOKKA START, DO NOT COMMIT !!! #
 # !!! EMBEDDED DOKKA END, DO NOT COMMIT !!! #

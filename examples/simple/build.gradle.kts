@@ -14,6 +14,10 @@ kotlin {
 		browser()
 		binaries.executable()
 		useEsModules()
+
+		compilerOptions {
+			target.set("es2015")
+		}
 	}
 }
 
