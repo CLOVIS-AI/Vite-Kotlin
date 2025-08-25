@@ -3,9 +3,10 @@ package opensavvy.gradle.vite.kotlin.tasks
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
+import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.Sync
 import org.gradle.configurationcache.extensions.capitalized
+import org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting
@@ -16,15 +17,15 @@ import kotlin.io.path.readSymbolicLink
 internal fun createCopyTask(project: Project, name: String, sourceTask: String, destination: Provider<Directory>) {
 	val rootBuildDir = project.rootProject.layout.buildDirectory
 
-	project.tasks.register(name, Sync::class.java) {
+	project.tasks.register(name, DefaultIncrementalSyncTask::class.java) {
 		group = KotlinVitePlugin.GROUP
 		description = "Prepares the Vite working directory"
 
 		dependsOn("jsPackageJson", "kotlinNodeJsSetup")
 
-		from(project.tasks.named(sourceTask))
-		into(destination.map { it.dir("kotlin") })
-		exclude("node_modules")
+		from.from(project.tasks.named(sourceTask))
+		destinationDirectory.set(destination.map { it.dir("kotlin").asFile })
+		duplicatesStrategy = DuplicatesStrategy.WARN
 
 		doLast {
 			val nodeModules = Path.of(destination.get().asFile.absolutePath, "node_modules")
