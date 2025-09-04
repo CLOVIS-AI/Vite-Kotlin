@@ -37,7 +37,7 @@ abstract class WriteConfig : DefaultTask() {
 		description = "Generates the vite.config.js file"
 
 		config.setDefaultsFrom(project.viteConfig)
-		configurationFile.convention(config.root.map { "$it/vite.config.js" }.map { RegularFile { File(it) } })
+		configurationFile.convention(config.root.map { "$it/vite.config.mjs" }.map { RegularFile { File(it) } })
 
 		inputs.property("plugins", config.plugins)
 		inputs.property("base", config.base)
