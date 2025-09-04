@@ -1,6 +1,7 @@
 package opensavvy.gradle.vite.kotlin.tasks
 
 import opensavvy.gradle.vite.base.tasks.ViteExec
+import opensavvy.gradle.vite.base.tasks.WriteConfig
 import opensavvy.gradle.vite.kotlin.KotlinVitePlugin
 import opensavvy.gradle.vite.kotlin.viteBuildDevDir
 import opensavvy.gradle.vite.kotlin.viteBuildDistDir
@@ -9,6 +10,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Internal
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.getValue
 import org.gradle.process.ExecOperations
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
@@ -57,11 +59,16 @@ abstract class KotlinViteExec @Inject constructor(
 }
 
 internal fun createExecTasks(project: Project) {
+	val configureDev: WriteConfig by project.tasks.named(VITE_CONFIGURE_DEV_NAME)
+	val configureProd: WriteConfig by project.tasks.named(VITE_CONFIGURE_PROD_NAME)
+
 	project.tasks.register("viteBuild", KotlinViteExec::class.java) {
 		description = "Builds the production variant of the project"
-		dependsOn("viteConfigureProd", "viteCompileProd")
+		dependsOn(configureProd, "viteCompileProd")
 
 		command.set("build")
+
+		config.setDefaultsFrom(configureProd.config)
 
 		config.root.set(project.viteBuildProdDir.map { it.dir("kotlin") })
 		configurationFile.set(project.viteBuildProdDir.map { it.file("vite.config.js") })
@@ -70,7 +77,9 @@ internal fun createExecTasks(project: Project) {
 
 	project.tasks.register("viteRun", KotlinViteExec::class.java) {
 		description = "Hosts the development variant of the project"
-		dependsOn("viteConfigureDev", "viteCompileDev")
+		dependsOn(configureDev, "viteCompileDev")
+
+		config.setDefaultsFrom(configureDev.config)
 
 		config.root.set(project.viteBuildDevDir.map { it.dir("kotlin") })
 		configurationFile.set(project.viteBuildDevDir.map { it.file("vite.config.js") })

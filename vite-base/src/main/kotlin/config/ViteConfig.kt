@@ -142,7 +142,7 @@ interface ViteConfig {
 		/** The version of the plugin on NPM. See [ExternalVitePlugin.version]. */
 		version: String,
 		/** Optional additional configuration. See [ExternalVitePlugin.configuration]. */
-		@Language("JavaScript") configuration: String? = null,
+		@Language("JavaScript", prefix = "const a = ") configuration: String? = null,
 		/** Whether the package uses default or named exports. See [ExternalVitePlugin.isNamedExport]. */
 		isNamedExport: Boolean = false,
 	) {
