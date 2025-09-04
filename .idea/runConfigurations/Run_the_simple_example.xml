@@ -10,6 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
+          <option value="kotlinUpgradeYarnLock" />
           <option value="dumpViteConfiguration" />
           <option value="viteRun" />
         </list>
