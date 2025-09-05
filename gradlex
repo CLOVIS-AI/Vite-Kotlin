@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+example=$1
+shift
+
+./gradlew -p "examples/$example" --include-build ../.. "$@"
