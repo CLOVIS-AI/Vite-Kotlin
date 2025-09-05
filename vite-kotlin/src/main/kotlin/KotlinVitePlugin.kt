@@ -33,8 +33,8 @@ class KotlinVitePlugin : Plugin<Project> {
 
 		configureDependencies(target, config)
 		createDumpTask(target, config)
-		createCopyTask(target, "viteCompileKotlinDev", "jsDevelopmentExecutableCompileSync", target.viteBuildDevDir)
-		createCopyTask(target, "viteCompileKotlinProd", "jsProductionExecutableCompileSync", target.viteBuildProdDir)
+		createCopyTask(target, "viteCompileKotlinDev", "compileDevelopmentExecutableKotlinJs", target.viteBuildDevDir)
+		createCopyTask(target, "viteCompileKotlinProd", "compileProductionExecutableKotlinJs", target.viteBuildProdDir)
 		createConfigWriterTasks(target)
 		createExecTasks(target)
 	}
