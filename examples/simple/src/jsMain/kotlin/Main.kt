@@ -5,7 +5,7 @@ import kotlinx.browser.window
 import kotlin.js.Date
 
 fun main() {
-	println("Hello world!")
+	console.log("Hello world!")
 	ping()
 	window.setInterval({
 		ping()
