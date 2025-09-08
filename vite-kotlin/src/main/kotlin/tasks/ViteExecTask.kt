@@ -71,7 +71,7 @@ internal fun createExecTasks(project: Project) {
 		config.setDefaultsFrom(configureProd.config)
 
 		config.root.set(project.viteBuildProdDir.map { it.dir("kotlin") })
-		configurationFile.set(project.viteBuildProdDir.map { it.file("vite.config.js") })
+		configurationFile.set(configureProd.configurationFile)
 		outputs.dir(project.viteBuildDistDir)
 	}
 
@@ -82,7 +82,7 @@ internal fun createExecTasks(project: Project) {
 		config.setDefaultsFrom(configureDev.config)
 
 		config.root.set(project.viteBuildDevDir.map { it.dir("kotlin") })
-		configurationFile.set(project.viteBuildDevDir.map { it.file("vite.config.js") })
+		configurationFile.set(configureDev.configurationFile)
 
 		inputs.property("server.host", config.server.host)
 		inputs.property("server.port", config.server.port)
