@@ -94,6 +94,9 @@ abstract class WriteConfig : DefaultTask() {
 							config.server.proxies.get()
 								.joinToString(separator = ",\n\t\t\t") { "'${it.url}': {target: '${it.target}', changeOrigin: ${it.changeOrigin}, ws: ${it.ws}, rewrite: (path) => path.replace(/^\\${it.url}/, '${it.replacePrefixBy ?: it.url}')}" }
 						}
+					},
+					watch: {
+						ignored: /.*\.kt/
 					}
 				},
 			}
