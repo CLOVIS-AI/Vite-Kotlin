@@ -24,6 +24,7 @@ internal fun createCopyTask(project: Project, name: String, sourceTask: String, 
 		dependsOn("jsPackageJson", "kotlinNodeJsSetup")
 
 		from.from(project.tasks.named(sourceTask))
+		from.from(project.tasks.named("jsProcessResources"))
 		destinationDirectory.set(destination.map { it.dir("kotlin").asFile })
 		duplicatesStrategy = DuplicatesStrategy.WARN
 
