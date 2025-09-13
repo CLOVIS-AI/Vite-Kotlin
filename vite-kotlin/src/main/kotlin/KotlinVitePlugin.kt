@@ -37,6 +37,7 @@ class KotlinVitePlugin : Plugin<Project> {
 		createCopyTask(target, "viteCompileKotlinProd", "compileProductionExecutableKotlinJs", target.viteBuildProdDir)
 		createConfigWriterTasks(target)
 		createExecTasks(target)
+		configureFiltering(target, config)
 	}
 
 	companion object {

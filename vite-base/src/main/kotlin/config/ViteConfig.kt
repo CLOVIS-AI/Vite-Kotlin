@@ -28,6 +28,7 @@ interface ViteConfig {
 	fun setDefaults() {
 		// Root
 		version.convention("6.1.0")
+		autoRewriteIndex.convention(false)
 		base.convention("./")
 		server.host.convention("localhost")
 		server.port.convention(5173)
@@ -37,6 +38,7 @@ interface ViteConfig {
 	fun setDefaultsFrom(other: ViteConfig) {
 		version.convention(other.version)
 		root.convention(other.root)
+		autoRewriteIndex.convention(other.autoRewriteIndex)
 		base.convention(other.base)
 		plugins.convention(other.plugins)
 		publicDir.convention(other.publicDir)
@@ -84,6 +86,22 @@ interface ViteConfig {
 	 */
 	@get:Internal
 	val root: DirectoryProperty
+
+	/**
+	 * Whether to rewrite `<script>` declaration in the `index.html` file to be compatible
+	 * with the Vite plugin and Hot Module Replacement. Disabled by default.
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     autoRewriteIndex.set(true)
+	 * }
+	 * ```
+	 *
+	 */
+	@get:Internal
+	val autoRewriteIndex: Property<Boolean>
 
 	/**
 	 * Base public path when served in development or production.

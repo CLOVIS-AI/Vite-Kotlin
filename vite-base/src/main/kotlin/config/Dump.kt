@@ -8,6 +8,7 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 		value("Plugins", config.plugins)
 
 		value("Root", config.root)
+		value("Auto rewrite index", config.autoRewriteIndex)
 		value("Base", config.base)
 		value("Public dir", config.publicDir)
 	}
