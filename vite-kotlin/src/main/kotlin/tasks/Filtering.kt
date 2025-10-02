@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
 import org.jetbrains.kotlin.gradle.plugin.mpp.fileExtension
 
-fun configureFiltering(project: Project, config: ViteConfig) {
+internal fun configureFiltering(project: Project, config: ViteConfig) {
 	/*
 	 * afterEvaluate is used to access configuration options and to make sure
 	 * Kotlin/JS plugin is configured
