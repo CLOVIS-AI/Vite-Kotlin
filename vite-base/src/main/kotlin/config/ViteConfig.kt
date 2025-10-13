@@ -219,20 +219,4 @@ interface ViteConfig {
 	val server: ViteServerConfig
 
 	fun server(block: ViteServerConfig.() -> Unit) = server.apply(block)
-
-	/**
-	 * A list of targets names that should not be configured by the Vite plugin.
-	 *
-	 * ### Example
-	 *
-	 * ```kotlin
-	 * vite {
-	 *     disabledTargets("wasmJs")
-	 * }
-	 * ```
-	 */
-	@get:Internal
-	val disabledTargets: ListProperty<String>
-
-	fun disabledTargets(vararg targets: String) = disabledTargets.addAll(*targets)
 }

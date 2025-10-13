@@ -1,27 +1,27 @@
 package opensavvy.gradle.vite.kotlin
 
 import opensavvy.gradle.vite.base.config.ViteConfig
-import opensavvy.gradle.vite.base.viteConfig
+import opensavvy.gradle.vite.kotlin.config.KotlinViteConfig
 import opensavvy.gradle.vite.kotlin.config.defaultConfiguration
 import opensavvy.gradle.vite.kotlin.tasks.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider
+import org.gradle.internal.extensions.stdlib.capitalized
+import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
-import org.gradle.configurationcache.extensions.capitalized
-import org.gradle.internal.extensions.stdlib.capitalized
 
 class KotlinVitePlugin : Plugin<Project> {
 
 	override fun apply(target: Project) {
 		check(target.pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")) { """The kotlin("multiplatform") plugin must be applied before the Vite for Kotlin plugin""" }
 
-		target.pluginManager.apply("dev.opensavvy.vite.base")
+		target.extensions.create("vite", KotlinViteConfig::class.java)
 
-		val config = target.viteConfig
+		val config = target.kotlinViteConfig
 		config.defaultConfiguration()
 
 		fun registerTasks(kotlinTarget: KotlinTarget, useTargetPrefix: Boolean) {
@@ -82,3 +82,9 @@ internal fun Project.viteBuildDevDir(targetName: String): Provider<Directory> =
  */
 internal fun Project.viteBuildDistDir(targetName: String): Provider<Directory> =
 	viteBuildDir.map { it.dir(targetName).dir("dist") }
+
+/**
+ * Accesses the project's [KotlinViteConfig] extension.
+ */
+val Project.kotlinViteConfig: KotlinViteConfig
+	get() = extensions.getByType<KotlinViteConfig>()
