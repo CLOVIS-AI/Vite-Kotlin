@@ -9,6 +9,6 @@ internal fun ViteConfig.defaultConfiguration() {
 	plugin("@rollup/plugin-commonjs", "commonjs", "28.0.6")
 
 	// Build
-	build.target.convention("modules")
+	build.target.convention("es2015")
 	build.modulePreload.convention(true)
 }
