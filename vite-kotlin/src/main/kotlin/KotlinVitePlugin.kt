@@ -46,7 +46,7 @@ class KotlinVitePlugin : Plugin<Project> {
 			createCopyTask(target, "${vitePrefix}CompileKotlinProd", "compileProductionExecutableKotlin${kotlinTarget.name.capitalized()}${productionSuffix}", target.viteBuildProdDir(kotlinTarget.name), kotlinTarget)
 			createConfigWriterTasks(target, vitePrefix, kotlinTarget.name)
 			createExecTasks(target, vitePrefix, kotlinTarget)
-			configureFiltering(target, config)
+			configureFiltering(target, vitePrefix, kotlinTarget, config)
 		}
 
 		target.afterEvaluate {
