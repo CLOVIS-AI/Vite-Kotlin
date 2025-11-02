@@ -6,7 +6,6 @@ import org.gradle.api.file.Directory
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.provider.Provider
 import org.gradle.configurationcache.extensions.capitalized
-import org.jetbrains.kotlin.gradle.targets.js.ir.DefaultIncrementalSyncTask
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting
@@ -17,7 +16,7 @@ import kotlin.io.path.readSymbolicLink
 internal fun createCopyTask(project: Project, name: String, sourceTask: String, destination: Provider<Directory>) {
 	val rootBuildDir = project.rootProject.layout.buildDirectory
 
-	project.tasks.register(name, DefaultIncrementalSyncTask::class.java) {
+	project.tasks.register(name, CustomIncrementalSyncTask::class.java) {
 		group = KotlinVitePlugin.GROUP
 		description = "Prepares the Vite working directory"
 
