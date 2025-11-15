@@ -6,7 +6,7 @@ import opensavvy.gradle.vite.kotlin.viteBuildDevDir
 import opensavvy.gradle.vite.kotlin.viteBuildDistDir
 import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
+import org.gradle.internal.extensions.stdlib.capitalized
 
 /** Name of the default configuration task for the dev build. */
 internal const val VITE_CONFIGURE_DEV_NAME = "viteConfigureDev"
