@@ -175,7 +175,7 @@ gitlabCi {
 		}
 
 		afterScript {
-			shell("mv examples/$name/build/vite/dist kotlin-example")
+			shell("mv examples/$name/**/build/vite/dist kotlin-example")
 			shell("""echo "URL=$(.gitlab/ci/review-url.sh kotlin-example/index.html)">>$name.env""")
 
 			// Measure bundle size
