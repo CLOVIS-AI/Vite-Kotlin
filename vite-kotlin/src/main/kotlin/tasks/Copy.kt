@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.provider.Provider
-import org.gradle.configurationcache.extensions.capitalized
+import org.gradle.internal.extensions.stdlib.capitalized
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting
