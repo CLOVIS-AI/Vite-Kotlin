@@ -172,10 +172,12 @@ gitlabCi {
 				"dumpViteConfiguration",
 				"build",
 			)
+
+			shell("mv examples/$name/**/build/vite/dist kotlin-example")
+			shell("test -f kotlin-example/index.html")
 		}
 
 		afterScript {
-			shell("mv examples/$name/**/build/vite/dist kotlin-example")
 			shell("""echo "URL=$(.gitlab/ci/review-url.sh kotlin-example/index.html)">>$name.env""")
 
 			// Measure bundle size
