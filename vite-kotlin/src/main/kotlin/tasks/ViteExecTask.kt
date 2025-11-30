@@ -9,7 +9,6 @@ import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.Project
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Internal
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.getValue
