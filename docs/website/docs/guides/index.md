@@ -90,6 +90,17 @@ Once the task has finished, the files are available in the `<module>/build/vite/
 
 ## Troubleshooting
 
+### The engine "node" is incompatible with this module. Expected version…
+
+The Kotlin Gradle plugin automatically downloads a version of Node. However, Vite may require a newer version than the default selected by the Kotlin Gradle plugin.
+
+You can override the Node version by adding this to **the root `build.gradle.kts` file**:
+```kotlin
+project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+	project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "22.12.0"
+}
+```
+
 ### Windows: A required privilege is not held by the client
 
 You may need to enable Developer Mode in the settings. This plugin requires the creation of symbolic links to avoid duplicating the `node_modules` files. See [gradle#9077](https://github.com/gradle/gradle/issues/9077) for more information.
