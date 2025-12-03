@@ -173,7 +173,7 @@ gitlabCi {
 				"build",
 			)
 
-			shell("mv examples/$name/**/build/vite/dist kotlin-example")
+			shell("mv examples/$name/**/build/vite/dist kotlin-example || mv examples/$name/build/vite/dist kotlin-example")
 			shell("test -f kotlin-example/index.html")
 		}
 
