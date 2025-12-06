@@ -1,7 +1,11 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
 	alias(opensavvyConventions.plugins.base)
 	alias(opensavvyConventions.plugins.plugin)
 	alias(opensavvyConventions.plugins.kotlin.abstractLibrary)
+	alias(libsCommon.plugins.testBalloon)
+	id("org.jetbrains.kotlin.plugin.power-assert")
 
 	`kotlin-dsl`
 	`java-gradle-plugin`
@@ -21,9 +25,12 @@ gradlePlugin {
 }
 
 dependencies {
-	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${libsCommon.versions.kotlin.get()}")
+	implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${libsCommon.versions.kotlin.get()}")
 
 	api(projects.viteBase)
+
+	testImplementation(libsCommon.opensavvy.prepared.testBalloon)
+	testImplementation(libsCommon.opensavvy.prepared.gradle)
 }
 
 library {
@@ -51,4 +58,25 @@ afterEvaluate {
 			url.set("https://gitlab.com/opensavvy/automation/kotlin-vite")
 		}
 	}
+}
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+powerAssert {
+	functions = listOf(
+		// Standard library
+		"kotlin.assert",
+		"kotlin.require",
+		"kotlin.requireNotNull",
+		"kotlin.check",
+		"kotlin.checkNotNull",
+
+		// Standard test library
+		"kotlin.test.assertTrue",
+		"kotlin.test.assertFalse",
+		"kotlin.test.assertEquals",
+		"kotlin.test.assertNull",
+
+		// Prepared
+		"opensavvy.prepared.suite.assertions.log",
+	)
 }
