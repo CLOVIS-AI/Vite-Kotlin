@@ -26,3 +26,7 @@ vite {
 		proxy("/api", "http://localhost:4567")
 	}
 }
+
+project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+	project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "22.12.0"
+}

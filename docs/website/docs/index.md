@@ -25,9 +25,3 @@ The base plugin contains the logic for the configuration and the tasks, but they
 You can use this plugin to easily configure Vite in your own projects with your own logic or custom tooling.
 
 [Learn more about the configuration and usage](https://vite-kotlin.opensavvy.dev/api-docs/vite-base).
-
-## Troubleshooting
-
-**Failed build on Windows with the message:** "A required privilege is not held by the client".
-
-:   You may need to enable Developer Mode in the settings. This plugin requires the creation of symbolic links to avoid duplicating the `node_modules` files. See [gradle#9077](https://github.com/gradle/gradle/issues/9077) for more information.

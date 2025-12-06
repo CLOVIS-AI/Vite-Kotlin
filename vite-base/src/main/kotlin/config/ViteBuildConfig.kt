@@ -27,7 +27,7 @@ interface ViteBuildConfig {
 	 * ```kotlin
 	 * vite {
 	 *     build {
-	 *         target.set("modules")
+	 *         target.set("es2015")
 	 *     }
 	 * }
 	 * ```
