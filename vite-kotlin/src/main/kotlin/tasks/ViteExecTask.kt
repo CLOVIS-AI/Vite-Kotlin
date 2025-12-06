@@ -39,6 +39,7 @@ abstract class KotlinViteExec @Inject constructor(
 	@get:Internal
 	override val requiredNpmDependencies: Set<RequiredKotlinJsDependency>
 		get() = setOf(NpmPackageVersion("vite", config.version.get()))
+			.plus(config.plugins.get().map { NpmPackageVersion(it.packageName, it.version) })
 
 	init {
 		dependsOn("kotlinNodeJsSetup", "jsPackageJson", ":kotlinNpmInstall")
