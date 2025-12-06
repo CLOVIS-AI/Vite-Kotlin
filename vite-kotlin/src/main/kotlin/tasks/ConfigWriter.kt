@@ -8,40 +8,35 @@ import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.Project
 import org.gradle.internal.extensions.stdlib.capitalized
 
-/** Name of the default configuration task for the dev build. */
-internal const val VITE_CONFIGURE_DEV_NAME = "viteConfigureDev"
-/** Name of the default configuration task for the production build. */
-internal const val VITE_CONFIGURE_PROD_NAME = "viteConfigureProd"
-
-internal fun createConfigWriterTasks(project: Project) {
-	project.tasks.register(VITE_CONFIGURE_DEV_NAME, WriteConfig::class.java) {
-		dependsOn("viteCompileDev")
+internal fun createConfigWriterTasks(project: Project, vitePrefix: String, targetName: String) {
+	project.tasks.register("${vitePrefix}ConfigureDev", WriteConfig::class.java) {
+		dependsOn("${vitePrefix}CompileDev")
 		group = KotlinVitePlugin.GROUP
 
 		config {
-			root.set(project.viteBuildDevDir)
-			publicDir.convention("../../../..")
+			root.set(project.viteBuildDevDir(targetName))
+			publicDir.convention("../../../../..")
 
 			build {
-				outDir.set(project.viteBuildDistDir)
+				outDir.set(project.viteBuildDistDir(targetName))
 			}
 		}
 	}
 
-	project.tasks.register(VITE_CONFIGURE_PROD_NAME, WriteConfig::class.java) {
-		dependsOn("viteCompileProd")
+	project.tasks.register("${vitePrefix}ConfigureProd", WriteConfig::class.java) {
+		dependsOn("${vitePrefix}CompileProd")
 		group = KotlinVitePlugin.GROUP
 
 		config {
-			root.convention(project.viteBuildProdDir)
+			root.convention(project.viteBuildProdDir(targetName))
 
 			build {
-				outDir.convention(project.viteBuildDistDir)
+				outDir.convention(project.viteBuildDistDir(targetName))
 			}
 		}
 	}
 
 	project.tasks.named("clean") {
-		dependsOn("clean${VITE_CONFIGURE_DEV_NAME.capitalized()}", "clean${VITE_CONFIGURE_PROD_NAME.capitalized()}")
+		dependsOn("clean${vitePrefix.capitalized()}ConfigureDev", "clean${vitePrefix.capitalized()}ConfigureProd")
 	}
 }

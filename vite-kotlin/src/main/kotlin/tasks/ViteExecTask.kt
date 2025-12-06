@@ -9,11 +9,14 @@ import opensavvy.gradle.vite.kotlin.viteBuildProdDir
 import org.gradle.api.Project
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Internal
+import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.process.ExecOperations
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.targets.js.NpmPackageVersion
 import org.jetbrains.kotlin.gradle.targets.js.RequiredKotlinJsDependency
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrCompilation
@@ -28,13 +31,17 @@ import javax.inject.Inject
  */
 @CacheableTask
 abstract class KotlinViteExec @Inject constructor(
-	process: ExecOperations,
+	process: ExecOperations, targetName: String, private val targetType: String,
 ) : ViteExec(process), RequiresNpmDependencies {
 
+	@OptIn(ExperimentalWasmDsl::class)
 	@get:Internal
 	override val compilation: KotlinJsIrCompilation
-		get() = project.extensions.getByType<KotlinMultiplatformExtension>().js()
-			.compilations.getByName(KotlinCompilation.MAIN_COMPILATION_NAME)
+		get() {
+			val extension = project.extensions.getByType<KotlinMultiplatformExtension>()
+			val targetDsl = if (targetType == "js") extension.js() else extension.wasmJs()
+			return targetDsl.compilations.getByName(KotlinCompilation.MAIN_COMPILATION_NAME)
+		}
 
 	@get:Internal
 	override val requiredNpmDependencies: Set<RequiredKotlinJsDependency>
@@ -42,7 +49,9 @@ abstract class KotlinViteExec @Inject constructor(
 			.plus(config.plugins.get().map { NpmPackageVersion(it.packageName, it.version) })
 
 	init {
-		dependsOn("kotlinNodeJsSetup", "jsPackageJson", ":kotlinNpmInstall")
+		val kotlinNodeJsSetup = if (targetType == "js") "kotlinNodeJsSetup" else "kotlinWasmNodeJsSetup"
+		val kotlinNpmInstall = if (targetType == "js") ":kotlinNpmInstall" else ":kotlinWasmNpmInstall"
+		dependsOn(kotlinNodeJsSetup, "${targetName}PackageJson", kotlinNpmInstall)
 		group = KotlinVitePlugin.GROUP
 
 		nodePath.set {
@@ -55,46 +64,52 @@ abstract class KotlinViteExec @Inject constructor(
 		// throws if executed before the :kotlinNpmInstall task. Using the line above thus
 		// results in a build that crashes after a clean build, but works if a :kotlinNpmInstall is executed
 		// by itself first.
-		vitePath.set(project.rootProject.layout.buildDirectory.file("js/node_modules/vite/bin/vite.js"))
+		vitePath.set(project.rootProject.layout.buildDirectory.file("${targetType}/node_modules/vite/bin/vite.js"))
 	}
 }
 
-internal fun createExecTasks(project: Project) {
-	val configureDev: WriteConfig by project.tasks.named(VITE_CONFIGURE_DEV_NAME)
-	val configureProd: WriteConfig by project.tasks.named(VITE_CONFIGURE_PROD_NAME)
+internal fun createExecTasks(project: Project, vitePrefix: String, target: KotlinTarget) {
+	val configureDev: WriteConfig by project.tasks.named("${vitePrefix}ConfigureDev")
+	val configureProd: WriteConfig by project.tasks.named("${vitePrefix}ConfigureProd")
+	val targetName = target.name
+	val targetType = if (target.targetName == "wasmJs") "wasm" else "js"
 
-	project.tasks.register("viteBuild", KotlinViteExec::class.java) {
-		description = "Builds the production variant of the project"
-		dependsOn(configureProd, "viteCompileProd")
+	project.tasks.register("${vitePrefix}Build", KotlinViteExec::class.java, targetName, targetType).apply {
+		configure {
+			description = "Builds the production variant of the project"
+			dependsOn(configureProd, "${vitePrefix}CompileProd")
 
-		command.set("build")
+			command.set("build")
 
-		config.setDefaultsFrom(configureProd.config)
+			config.setDefaultsFrom(configureProd.config)
 
-		config.root.set(project.viteBuildProdDir.map { it.dir("kotlin") })
-		configurationFile.set(configureProd.configurationFile)
-		outputs.dir(project.viteBuildDistDir)
+			config.root.set(project.viteBuildProdDir(targetName).map { it.dir("kotlin") })
+			configurationFile.set(configureProd.configurationFile)
+			outputs.dir(project.viteBuildDistDir(targetName))
+		}
 	}
 
-	project.tasks.register("viteRun", KotlinViteExec::class.java) {
-		description = "Hosts the development variant of the project"
-		dependsOn(configureDev, "viteCompileDev")
+	project.tasks.register("${vitePrefix}Run", KotlinViteExec::class.java, targetName, targetType).apply {
+		configure {
+			description = "Hosts the development variant of the project"
+			dependsOn(configureDev, "${vitePrefix}CompileDev")
 
-		config.setDefaultsFrom(configureDev.config)
+			config.setDefaultsFrom(configureDev.config)
 
-		config.root.set(project.viteBuildDevDir.map { it.dir("kotlin") })
-		configurationFile.set(configureDev.configurationFile)
+			config.root.set(project.viteBuildDevDir(targetName).map { it.dir("kotlin") })
+			configurationFile.set(configureDev.configurationFile)
 
-		inputs.property("server.host", config.server.host)
-		inputs.property("server.port", config.server.port)
-		inputs.property("server.strictPort", config.server.strictPort)
+			inputs.property("server.host", config.server.host)
+			inputs.property("server.port", config.server.port)
+			inputs.property("server.strictPort", config.server.strictPort)
+		}
 	}
 
 	project.tasks.named("assemble") {
-		dependsOn("viteBuild")
+		dependsOn("${vitePrefix}Build")
 	}
 
 	project.tasks.named("clean") {
-		dependsOn("cleanViteBuild", "cleanViteRun")
+		dependsOn("clean${vitePrefix.capitalized()}Build", "clean${vitePrefix.capitalized()}Run")
 	}
 }

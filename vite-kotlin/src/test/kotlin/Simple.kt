@@ -19,7 +19,7 @@ val Simple by preparedSuite(preparedConfig = CoroutineTimeout(10.minutes)) {
 
 		val indexHtml = app().dir / "src" / "jsMain" / "resources" / "index.html"
 		val main = app().dir / "src" / "jsMain" / "kotlin" / "Main.kt"
-		val dist = app().buildDir / "vite" / "dist"
+		val dist = app().buildDir / "vite" / "js" / "dist"
 
 		// language="kotlin"
 		app().buildKts("""
@@ -75,7 +75,7 @@ val Simple by preparedSuite(preparedConfig = CoroutineTimeout(10.minutes)) {
 
 		val indexHtml = app().dir / "src" / "jsMain" / "resources" / "index.html"
 		val main = app().dir / "src" / "jsMain" / "kotlin" / "Main.kt"
-		val dist = app().buildDir / "vite" / "dist"
+		val dist = app().buildDir / "vite" / "js" / "dist"
 
 		// language="kotlin"
 		app().buildKts("""
