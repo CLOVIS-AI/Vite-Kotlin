@@ -19,7 +19,7 @@ val PluginsTest by preparedSuite(preparedConfig = CoroutineTimeout(10.minutes)) 
 
 		val indexHtml = app().dir / "src" / "jsMain" / "resources" / "index.html"
 		val main = app().dir / "src" / "jsMain" / "kotlin" / "Main.kt"
-		val dist = app().buildDir / "vite" / "dist"
+		val dist = app().buildDir / "vite" / "js" / "dist"
 
 		// language="kotlin"
 		app().buildKts("""
@@ -76,8 +76,8 @@ val PluginsTest by preparedSuite(preparedConfig = CoroutineTimeout(10.minutes)) 
 
 		check(dist().exists())
 		check(dist().listDirectoryEntries().map { it.name }.sorted() == listOf("assets", "index.html"))
-		check("stylelint()" in app().buildDir().resolve("vite/prod/vite.config.mjs").readText())
-		check("vite-plugin-stylelint" in app().buildDir().resolve("vite/prod/node_modules").listDirectoryEntries().map { it.name })
+		check("stylelint()" in app().buildDir().resolve("vite/js/prod/vite.config.mjs").readText())
+		check("vite-plugin-stylelint" in app().buildDir().resolve("vite/js/prod/node_modules").listDirectoryEntries().map { it.name })
 	}
 
 }
