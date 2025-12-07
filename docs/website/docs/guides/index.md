@@ -90,6 +90,8 @@ Once the task has finished, the files are available in the `<module>/build/vite/
 
 ## Troubleshooting
 
+If you experience a problem not listed here, take a look in the [known issues](https://gitlab.com/opensavvy/automation/kotlin-vite/-/issues?sort=created_date&state=all&label_name%5B%5D=bug&first_page_size=10).
+
 ### The engine "node" is incompatible with this module. Expected version…
 
 The Kotlin Gradle plugin automatically downloads a version of Node. However, Vite may require a newer version than the default selected by the Kotlin Gradle plugin.
