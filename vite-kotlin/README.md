@@ -91,4 +91,4 @@ Keep this task running for as long as you need auto-reload.
 
 Compiles the production version of the website, and runs all minification tasks using [Rollup](https://rollupjs.org/).
 
-Once the task has finished, the files are available in the `<module>/build/vite/dist` directory.
+Once the task has finished, the files are available in the `<module>/build/vite/<platform>/dist` directory.
