@@ -88,6 +88,12 @@ Compiles the production version of the website, and runs all minification tasks 
 
 Once the task has finished, the files are available in the `<module>/build/vite/<platform>/dist` directory.
 
+### :vitePreview
+
+> Example: `./gradlew :website:vitePreview`
+
+Hosts the output of `:viteBuild`. Useful to test issues that only appear in production and not in development.
+
 ## Troubleshooting
 
 If you experience a problem not listed here, take a look in the [known issues](https://gitlab.com/opensavvy/automation/kotlin-vite/-/issues?sort=created_date&state=all&label_name%5B%5D=bug&first_page_size=10).

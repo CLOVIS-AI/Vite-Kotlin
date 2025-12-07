@@ -89,6 +89,21 @@ internal fun createExecTasks(project: Project, vitePrefix: String, target: Kotli
 		}
 	}
 
+	project.tasks.register("${vitePrefix}Preview", KotlinViteExec::class.java, targetName, targetType).apply {
+		configure {
+			description = "Previews the production variant of the project"
+			dependsOn("${vitePrefix}Build")
+
+			command.set("preview")
+
+			config.setDefaultsFrom(configureProd.config)
+
+			config.root.set(project.viteBuildProdDir(targetName).map { it.dir("kotlin") })
+			configurationFile.set(configureProd.configurationFile)
+			outputs.dir(project.viteBuildDistDir(targetName))
+		}
+	}
+
 	project.tasks.register("${vitePrefix}Run", KotlinViteExec::class.java, targetName, targetType).apply {
 		configure {
 			description = "Hosts the development variant of the project"
