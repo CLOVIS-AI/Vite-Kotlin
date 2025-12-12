@@ -27,7 +27,7 @@ interface ViteConfig {
 	 */
 	fun setDefaults() {
 		// Root
-		version.convention("7.1.3") // https://www.npmjs.com/package/vite
+		version.convention("8.0.0-beta.2") // https://www.npmjs.com/package/vite
 		autoRewriteIndex.convention(false)
 		base.convention("./")
 		server.host.convention("localhost")
