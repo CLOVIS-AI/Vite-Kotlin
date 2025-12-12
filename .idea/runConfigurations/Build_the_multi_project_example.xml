@@ -13,6 +13,7 @@
           <option value="kotlinUpgradeYarnLock" />
           <option value="dumpViteConfiguration" />
           <option value="build" />
+          <option value="vitePreview" />
         </list>
       </option>
       <option name="vmOptions" />

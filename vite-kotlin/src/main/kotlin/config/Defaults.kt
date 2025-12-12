@@ -5,7 +5,12 @@ import opensavvy.gradle.vite.base.config.ViteConfig
 internal fun ViteConfig.defaultConfiguration() {
 	setDefaults()
 
+	// Needed for commonJS output (default in KGP)
+	// https://www.npmjs.com/package/vite-plugin-commonjs
 	plugin("vite-plugin-commonjs", "viteCommonjs", "0.10.4")
+
+	// Needed for WasmJS output, to reload the page on Wasm file changes
+	// https://www.npmjs.com/package/vite-plugin-restart
 	plugin("vite-plugin-restart", "ViteRestart", "1.0.0", "{ reload: ['*.wasm'] }")
 
 	// Build
