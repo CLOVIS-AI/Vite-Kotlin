@@ -103,11 +103,22 @@ If you experience a problem not listed here, take a look in the [known issues](h
 The Kotlin Gradle plugin automatically downloads a version of Node. However, Vite may require a newer version than the default selected by the Kotlin Gradle plugin.
 
 You can override the Node version by adding this to **the root `build.gradle.kts` file**:
-```kotlin
-project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
-	project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "22.12.0"
-}
-```
+
+=== "JS"
+
+	```kotlin
+	project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+		project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "22.12.0"
+	}
+	```
+
+=== "WasmJS"
+
+	```kotlin
+	project.plugins.withType<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsPlugin> {
+		project.the<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec>().version = "22.12.0"
+	}
+	```
 
 ### Windows: A required privilege is not held by the client
 
