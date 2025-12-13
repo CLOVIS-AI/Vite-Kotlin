@@ -11,6 +11,7 @@ fun DumpDsl.dumpViteConfig(config: ViteConfig) {
 		value("Auto rewrite index", config.autoRewriteIndex)
 		value("Base", config.base)
 		value("Public dir", config.publicDir)
+		value("Cache dir", config.cacheDir)
 	}
 
 	section("Build") {
