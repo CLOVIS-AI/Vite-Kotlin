@@ -80,6 +80,7 @@ abstract class WriteConfig : DefaultTask() {
 					},
 				],
 				publicDir: ${config.publicDir.orNull?.let { "'$it'" } ?: false},
+				cacheDir: ${config.cacheDir.orNull?.let { "'$it'" } ?: "'node_modules/.vite'"},
 				build: {
 					target: '${config.build.target.get()}',
 					modulePreload: ${config.build.modulePreload.get()},
