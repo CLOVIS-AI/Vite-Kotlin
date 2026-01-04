@@ -164,6 +164,8 @@ interface ViteConfig {
 		@Language("JavaScript", prefix = "const a = ") configuration: String? = null,
 		/** Whether the package uses default or named exports. See [ExternalVitePlugin.isNamedExport]. */
 		isNamedExport: Boolean = false,
+		/** Whether the packageName points to a local file. See [ExternalVitePlugin.isLocal]. */
+		isLocal: Boolean = false
 	) {
 		plugins.add(
 			ExternalVitePlugin(
@@ -171,7 +173,8 @@ interface ViteConfig {
 				packageName = packageName,
 				version = version,
 				configuration = configuration,
-				isNamedExport = isNamedExport
+				isNamedExport = isNamedExport,
+				isLocal = isLocal
 			)
 		)
 	}

@@ -14,7 +14,7 @@ internal fun configureDependencies(project: Project, config: ViteConfig, targetN
 			dependencies {
 				implementation(devNpm("vite", config.version.get()))
 
-				for (plugin in config.plugins.get()) {
+				for (plugin in config.plugins.get().filterNot { it.isLocal }) {
 					implementation(devNpm(plugin.packageName, plugin.version))
 				}
 			}
