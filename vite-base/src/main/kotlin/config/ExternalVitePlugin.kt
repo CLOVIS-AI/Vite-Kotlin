@@ -116,6 +116,12 @@ data class ExternalVitePlugin(
 	 * configuration will be generated as `import name from 'foo'`.
 	 */
 	val isNamedExport: Boolean = false,
+
+	/**
+	 * If `true`, the plugin dependency will not be added to the `package.json` file.
+	 * In this case, it is assumed that the [packageName] contains a local path.
+	 */
+	val isLocal: Boolean = false,
 ) : Serializable {
 
 	override fun toString() = "$packageName $version"

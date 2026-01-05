@@ -46,7 +46,9 @@ abstract class KotlinViteExec @Inject constructor(
 	@get:Internal
 	override val requiredNpmDependencies: Set<RequiredKotlinJsDependency>
 		get() = setOf(NpmPackageVersion("vite", config.version.get()))
-			.plus(config.plugins.get().map { NpmPackageVersion(it.packageName, it.version) })
+			.plus(config.plugins.get().filterNot { it.isLocal }.map {
+				NpmPackageVersion(it.packageName, it.version)
+			})
 
 	init {
 		val kotlinNodeJsSetup = if (targetType == "js") "kotlinNodeJsSetup" else "kotlinWasmNodeJsSetup"
