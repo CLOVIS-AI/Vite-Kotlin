@@ -80,4 +80,82 @@ val PluginsTest by preparedSuite(preparedConfig = CoroutineTimeout(10.minutes)) 
 		check("vite-plugin-stylelint" in app().buildDir().resolve("vite/js/prod/node_modules").listDirectoryEntries().map { it.name })
 	}
 
+	test("Local plugin") {
+		simpleBuild()
+
+		val indexHtml = app().dir / "src" / "jsMain" / "resources" / "index.html"
+		val main = app().dir / "src" / "jsMain" / "kotlin" / "Main.kt"
+		val dist = app().buildDir / "vite" / "js" / "dist"
+		val pluginFile = app().dir / "vite-plugin-custom.mjs"
+
+		// Create a simple Vite plugin that adds a comment to index.html
+		// language="JavaScript"
+		pluginFile().createParentDirectories()
+		pluginFile().writeText("""
+			export default function customPlugin() {
+				return {
+					name: 'custom-plugin',
+					transformIndexHtml(html) {
+						return '<!-- Custom Plugin Was Here -->\n' + html;
+					}
+				};
+			}
+		""".trimIndent())
+
+		// language="kotlin"
+		app().buildKts("""
+			plugins {
+				kotlin("multiplatform")
+				id("dev.opensavvy.vite.kotlin")
+			}
+
+			kotlin {
+				js {
+					browser()
+					binaries.executable()
+				}
+			}
+
+			vite {
+				localPlugin("../../../../vite-plugin-custom.mjs", "customPlugin")
+			}
+		""".trimIndent())
+
+		// language="HTML"
+		indexHtml().createParentDirectories()
+		indexHtml().writeText("""
+			<!DOCTYPE html>
+			<html lang="end">
+			<head>
+				<meta charset="UTF-8">
+			</head>
+			<body>
+				<div id="root"></div>
+				<script src="gradle-test-app.js" type="module"></script>
+			</body>
+			</html>
+		""".trimIndent())
+
+		// language="kotlin"
+		main().createParentDirectories()
+		main().writeText("""
+			fun main() {
+				println("Hello world!")
+			}
+		""".trimIndent())
+
+		val result = gradle.runner()
+			.withArguments("app:viteBuild")
+			.withPluginClasspath()
+			.build()
+
+		println(result.output)
+
+		check(dist().exists())
+		check(dist().listDirectoryEntries().map { it.name }.sorted() == listOf("assets", "index.html"))
+		check("customPlugin()" in app().buildDir().resolve("vite/js/prod/vite.config.mjs").readText())
+		val generatedIndexHtml = dist().resolve("index.html").readText()
+		check("<!-- Custom Plugin Was Here -->" in generatedIndexHtml)
+	}
+
 }
