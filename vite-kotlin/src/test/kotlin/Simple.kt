@@ -152,6 +152,12 @@ val Simple by preparedSuite(preparedConfig = CoroutineTimeout(10.minutes)) {
 					binaries.executable()
 				}
 			}
+ 
+			// TODO: Workaround https://gitlab.com/opensavvy/automation/kotlin-vite/-/issues/75 by explicitly configuring the latest stable version
+			//       The plugin vite-plugin-restart doesn't accept being installed with the Vite beta
+			vite {
+				version = "7.3.1"
+			}
 		""".trimIndent())
 
 		// language=properties
