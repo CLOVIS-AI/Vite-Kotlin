@@ -11,7 +11,7 @@ internal fun ViteConfig.defaultConfiguration() {
 
 	// Needed for WasmJS output, to reload the page on Wasm file changes
 	// https://www.npmjs.com/package/vite-plugin-restart
-	plugin("vite-plugin-restart", "ViteRestart", "1.0.0", "{ reload: ['*.wasm'] }")
+	plugin("vite-plugin-restart", "ViteRestart", "2.0.0", "{ reload: ['*.wasm'] }")
 
 	// Cache directory inside node_modules directory of the current target
 	cacheDir.convention("../node_modules/.vite")
