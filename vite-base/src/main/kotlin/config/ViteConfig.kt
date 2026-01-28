@@ -180,6 +180,47 @@ interface ViteConfig {
 	}
 
 	/**
+	 * Imports a local file as a Vite [plugin].
+	 *
+	 * Local plugins are not added to `package.json` and are not downloaded.
+	 * For more information, see [ExternalVitePlugin.isLocal].
+	 *
+	 * This is a helper function to add an element to [plugins].
+	 * For more information on the different parameters, see [ExternalVitePlugin].
+	 *
+	 * ### Example
+	 *
+	 * ```kotlin
+	 * vite {
+	 *     localPlugin("../../../../vite.config.d/myplugin.mjs", "myplugin")
+	 * }
+	 * ```
+	 */
+	fun localPlugin(
+		/** The path to the `.mjs` file that contains the plugin. See [ExternalVitePlugin.packageName]. */
+		path: String,
+		/** The JS symbol exported by the plugin. See [ExternalVitePlugin.exportedAs]. */
+		exportedAs: String,
+		/** The version of the plugin. Local plugins are usually not versioned. See [ExternalVitePlugin.version]. */
+		version: String = "*",
+		/** Optional additional configuration. See [ExternalVitePlugin.configuration]. */
+		@Language("JavaScript", prefix = "const a = ") configuration: String? = null,
+		/** Whether the package uses default or named exports. See [ExternalVitePlugin.isNamedExport]. */
+		isNamedExport: Boolean = false,
+	) {
+		plugins.add(
+			ExternalVitePlugin(
+				exportedAs = exportedAs,
+				packageName = path,
+				version = version,
+				configuration = configuration,
+				isNamedExport = isNamedExport,
+				isLocal = true,
+			)
+		)
+	}
+
+	/**
 	 * Directory to serve as plain static assets. Files in this directory are served at `/` during dev
 	 * and copied to the root `outDir` during build, and are always served or copied as-is without transform.
 	 *
