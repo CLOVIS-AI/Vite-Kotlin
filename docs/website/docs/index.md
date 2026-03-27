@@ -24,4 +24,4 @@ The base plugin contains the logic for the configuration and the tasks, but they
 
 You can use this plugin to easily configure Vite in your own projects with your own logic or custom tooling.
 
-[Learn more about the configuration and usage](https://vite-kotlin.opensavvy.dev/api-docs/vite-base).
+[Learn more about the configuration and usage](api/vite-base/index.md).
