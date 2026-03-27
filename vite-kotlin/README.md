@@ -38,7 +38,7 @@ For example:
 ```
 To learn more about why this is necessary, see the [official documentation](https://vitejs.dev/guide/#index-html-and-project-root).
 
-To configure the plugin, see [the vite block][opensavvy.gradle.vite.base.config.ViteConfig].
+To configure the plugin, see [the vite block][opensavvy.gradle.vite.kotlin.config.KotlinViteConfig].
 
 ### ESM
 
@@ -98,3 +98,15 @@ Once the task has finished, the files are available in the `<module>/build/vite/
 > Example: `./gradlew :website:vitePreview`
 
 Hosts the output of `:viteBuild`. Useful to test issues that only appear in production and not in development.
+
+# Package opensavvy.gradle.vite.kotlin
+
+The Gradle plugin itself.
+
+# Package opensavvy.gradle.vite.kotlin.config
+
+The different [configuration options][opensavvy.gradle.vite.kotlin.config.KotlinViteConfig].
+
+# Package opensavvy.gradle.vite.kotlin.tasks
+
+The tasks registered by the plugin.
