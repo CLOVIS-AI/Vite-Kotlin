@@ -231,7 +231,7 @@ gitlabCi {
 		artifacts {
 			include("kotlin-example")
 			dotenv("$name.env")
-			// metrics("metrics.txt") // TODO after https://gitlab.com/opensavvy/automation/gitlab-ci.kt/-/issues/34
+			metrics("metrics.txt")
 		}
 
 		environment {
