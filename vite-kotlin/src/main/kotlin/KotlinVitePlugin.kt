@@ -1,6 +1,5 @@
 package opensavvy.gradle.vite.kotlin
 
-import opensavvy.gradle.vite.base.config.ViteConfig
 import opensavvy.gradle.vite.kotlin.config.KotlinViteConfig
 import opensavvy.gradle.vite.kotlin.config.defaultConfiguration
 import opensavvy.gradle.vite.kotlin.tasks.*
@@ -64,9 +63,6 @@ class KotlinVitePlugin : Plugin<Project> {
 		const val GROUP = "Vite for Kotlin"
 	}
 }
-
-val Project.kotlinViteExtension: ViteConfig
-	get() = extensions.getByType(ViteConfig::class.java)
 
 private val Project.viteBuildDir: Provider<Directory>
 	get() = project.layout.buildDirectory.dir("vite")

@@ -1,5 +1,7 @@
 package opensavvy.gradle.vite.base.dump
 
+import opensavvy.gradle.vite.base.config.ViteConfig
+import opensavvy.gradle.vite.base.config.dumpViteConfig
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Provider
 
@@ -74,3 +76,23 @@ class DumpDsl internal constructor() {
 fun dump(block: DumpDsl.() -> Unit): String = DumpDsl()
 	.apply(block)
 	.toString()
+
+/**
+ * Dumps the entire [config].
+ *
+ * ### Example
+ *
+ * ```kotlin
+ * vite {
+ *     // …
+ * }
+ *
+ * val dumpConfig by tasks.registering {
+ *     doLast {
+ *         println(dump(vite))
+ *     }
+ * }
+ * ```
+ */
+fun dump(config: ViteConfig): String =
+	dump { dumpViteConfig(config) }

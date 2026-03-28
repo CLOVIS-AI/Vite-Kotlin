@@ -31,3 +31,21 @@ This plugin exposes multiple task types that you can use to create your own buil
 - [`ViteExec`][opensavvy.gradle.vite.base.tasks.ViteExec]: execute a Vite command.
 
 Note that it is the user's responsibility to install Vite and other dependencies.
+
+# Package opensavvy.gradle.vite.base
+
+The Gradle plugin itself as well as the [vite][opensavvy.gradle.vite.base.viteConfig] extension.
+
+# Package opensavvy.gradle.vite.base.config
+
+The different [configuration options][opensavvy.gradle.vite.base.config.ViteConfig].
+
+# Package opensavvy.gradle.vite.base.dump
+
+A convenient task to dump the configuration of the plugin to the standard output.
+
+# Package opensavvy.gradle.vite.base.tasks
+
+The implementation of the different tasks.
+
+Note that the Vite for Gradle plugin doesn't register the tasks.
