@@ -117,12 +117,8 @@ gitlabCi {
 				"-x wasmWasiNodeTest",
 				"-x linuxX64Test",
 				"-x mingwX64Test",
-				"-x macosX64Test",
 				"-x macosArm64Test",
-				"-x iosX64Test",
 				"-x iosSimulatorArm64Test",
-				"-x watchosX64Test",
-				"-x tvosX64Test",
 				$$"-PappVersion=$project_version",
 			)
 		}
