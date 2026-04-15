@@ -180,7 +180,7 @@ gitlabCi {
 
 		script {
 			gradlew.tasks(
-				"iosSimulatorArm64Test watchosSimulatorArm64Test",
+				"iosSimulatorArm64Test macosArm64Test tvosSimulatorArm64Test watchosSimulatorArm64Test",
 				$$"-PappVersion=$project_version",
 			)
 		}
